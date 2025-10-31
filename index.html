@@ -51,6 +51,15 @@
   .danger{background:#b01c1c}
   .tag{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted);margin-right:6px}
   footer{opacity:0.6;text-align:center;margin-top:30px;font-size:13px;color:var(--muted)}
+  .drawer{position:fixed;right:-300px;top:0;height:100%;width:300px;background:#111;border-left:1px solid #333;padding:14px;transition:0.3s;overflow-y:auto;z-index:999;}
+.drawer.open{right:0;}
+
+.modal-overlay{display:none;position:fixed;top:0;left:0;height:100%;width:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999}
+.modal{background:#121214;padding:18px;border-radius:12px;width:90%;max-width:420px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+
+.bookmark-btn.active{color:gold;border-color:gold}
+
 </style>
 </head>
 <body>
@@ -154,6 +163,60 @@
       </div>
     </div>
   </div>
+  <!-- Daily Roast Challenge -->
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <strong>🔥 Daily Roast Challenge</strong>
+      <div class="small">Earn XP & badges by completing it</div>
+    </div>
+    <span class="badge" id="challengeXp">0 XP</span>
+  </div>
+  <div id="challengeText" style="margin-top:8px;font-size:14px"></div>
+  <button class="btn" id="completeChallenge" style="margin-top:10px;width:100%">Complete Challenge</button>
+</div>
+
+<!-- Bookmarks -->
+<div class="card">
+  <strong>⭐ Bookmarked Posts</strong>
+  <div class="small">Your saved roasts</div>
+  <div id="bookmarkList" style="margin-top:10px;font-size:14px"></div>
+</div>
+
+<!-- Notification Drawer -->
+<div id="notifDrawer" class="drawer">
+  <div class="drawer-header">
+    <strong>🔔 Notifications</strong>
+    <button class="ghost" id="closeNotifDrawer">Close</button>
+  </div>
+  <div id="notifHistory"></div>
+</div>
+
+<!-- Profile Modal -->
+<div id="profileModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <strong id="profileName"></strong>
+      <button class="ghost" id="closeProfileModal">✖</button>
+    </div>
+    <div class="small" id="profileUserMeta"></div>
+    <div id="profilePosts" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<!-- AI Roast Generator -->
+<div class="card">
+  <strong>🤖 AI Roast Generator</strong>
+  <div class="small">Generate a roast idea (local logic, no server)</div>
+  <button id="aiRoastBtn" class="btn" style="margin-top:8px;width:100%">Generate Roast</button>
+  <div id="aiRoastOutput" style="margin-top:10px;font-size:14px;opacity:0.8"></div>
+</div>
+
+<!-- Theme toggle -->
+<div style="text-align:center;margin:20px 0">
+  <button id="themeToggle" class="ghost">🌙 Toggle Theme</button>
+</div>
+
 
   <footer>Built for rapid MVP testing — local only. Later: Firebase backend, AI meme generator, monetization.</footer>
 </div>
@@ -487,5 +550,25 @@ ensureSeed();
 renderAll();
 
 </script>
+  <!-- REPORT MODAL -->
+<div id="reportModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <strong>Report Post</strong>
+      <button class="ghost" id="closeReportModal">✖</button>
+    </div>
+    <div class="small">Why are you reporting?</div>
+    <select id="reportReason" class="search" style="margin-top:10px">
+      <option>Harassment</option>
+      <option>Hate Speech</option>
+      <option>Misleading Info</option>
+      <option>Spam / Promotion</option>
+      <option>NSFW</option>
+    </select>
+    <button id="submitReport" class="btn" style="margin-top:10px;width:100%">Submit Report</button>
+  </div>
+</div>
+
 </body>
 </html>
+

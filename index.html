@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bharat Roast — MVP</title>
+<style>
+  :root{
+    --bg:#0b0b0c; --card:#121214; --muted:#9aa0a6; --accent:#ff3b30; --accent-2:#1f8fff;
+    --glass: rgba(255,255,255,0.03);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:linear-gradient(180deg,#070708 0%, #0b0b0c 100%);
+    color:#e8eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    -webkit-user-select:none; -ms-user-select:none; user-select:none;
+  }
+  .app{max-width:760px; margin:0 auto; padding:18px; min-height:100vh;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--card);border-radius:12px;margin-bottom:14px;box-shadow:0 6px 24px rgba(0,0,0,0.45);}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff7a6b);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+  .title{font-size:18px;font-weight:700}
+  .subtitle{font-size:12px;color:var(--muted)}
+  .btn{background:var(--accent);border:none;padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:600}
+  .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:16px}
+  @media(max-width:900px){ .layout{grid-template-columns:1fr} .rightcol{order:2} }
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px;border-radius:12px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.6);}
+  .post-composer textarea{width:100%;min-height:70px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;resize:vertical}
+  .row{display:flex;gap:8px;align-items:center}
+  .small{font-size:12px;color:var(--muted)}
+  .feed{display:flex;flex-direction:column;gap:10px}
+  .post{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
+  .post .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .author{font-weight:700}
+  .time{font-size:12px;color:var(--muted)}
+  .content{white-space:pre-wrap;margin:8px 0}
+  .actions{display:flex;gap:8px;align-items:center;margin-top:8px}
+  .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;color:var(--muted);cursor:pointer}
+  .icon-btn.active{border-color:var(--accent);color:var(--accent)}
+  .badge{background:rgba(255,255,255,0.04);padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
+  .rightcol .card{position:sticky;top:18px}
+  .search{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+  .template{padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px dashed rgba(255,255,255,0.03);font-size:14px}
+  .leaderboard-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+  .post-floating{position:fixed;right:18px;bottom:18px;background:var(--accent);border:none;padding:14px;border-radius:50%;font-weight:800;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .notif{position:fixed;left:50%;transform:translateX(-50%);top:18px;background:#08a045;padding:10px 16px;border-radius:10px;color:#fff;display:none}
+  .danger{background:#b01c1c}
+  .tag{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted);margin-right:6px}
+  footer{opacity:0.6;text-align:center;margin-top:30px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="notif" id="notif"></div>
+
+<div class="app">
+  <div class="topbar card">
+    <div class="brand">
+      <div class="logo">BR</div>
+      <div>
+        <div class="title">Bharat Roast</div>
+        <div class="subtitle">India's truth & roast feed</div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="user-area"></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <!-- Composer -->
+      <div class="card post-composer" id="composerCard">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>Create Post</strong><div class="small">Share a savage truth or roast — be funny, be smart</div></div>
+          <div class="small">Character safe: 600</div>
+        </div>
+        <div style="height:10px"></div>
+        <textarea id="postContent" placeholder="Write a funny truth, roast or opinion..."></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <div style="display:flex;gap:8px;align-items:center">
+            <label style="display:flex;gap:6px;align-items:center"><input id="postAnon" type="checkbox" checked /> <span class="small">Post anonymously</span></label>
+            <div style="width:8px"></div>
+            <select id="postTone" class="badge">
+              <option value="witty">Witty</option>
+              <option value="savage">Savage</option>
+              <option value="chill">Chill</option>
+              <option value="flirty">Flirty</option>
+              <option value="royal">Royal</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="ghost" id="useTemplateBtn">Templates</button>
+            <button class="btn" id="postBtn">Post</button>
+          </div>
+        </div>
+        <div class="hint">Tip: Use templates to create viral-ready posts fast.</div>
+      </div>
+
+      <!-- Feed filters -->
+      <div style="display:flex;gap:8px;margin:12px 0 6px 0">
+        <input id="searchInput" class="search" placeholder="Search feed text or author..." />
+        <select id="sortSelect" class="ghost" title="Sort">
+          <option value="new">Newest</option>
+          <option value="top">Top (upvotes)</option>
+        </select>
+      </div>
+
+      <!-- Feed -->
+      <div id="feed" class="feed"></div>
+
+      <button class="post-floating" id="floatingPost">+</button>
+    </div>
+
+    <!-- Right column -->
+    <div class="rightcol">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div><strong>Trending Tags</strong><div class="small">What's being roasted</div></div>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div class="tag">#Parents</div><div class="tag">#SchoolLife</div><div class="tag">#KotaTruths</div><div class="tag">#IndianDating</div><div class="tag">#Tuition</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Post Templates</strong>
+        <div class="small" style="margin-top:6px">Tap to use — ready-made viral formats</div>
+        <div style="margin-top:10px;display:grid;grid-template-columns:1fr;gap:8px">
+          <div class="template" data-t="Parents be like: 'Beta, phone mat chalao'... *but 2 AM Reels*">Parents truth format</div>
+          <div class="template" data-t="School taught us X but not Y — why?">School reality format</div>
+          <div class="template" data-t="Unpopular opinion: Coaching culture is...">Unpopular opinion format</div>
+          <div class="template" data-t="If my parents saw my bank balance they'd...">Money truth format</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Leaderboard</strong>
+        <div class="small" style="margin-top:6px">Top witty users (by upvotes)</div>
+        <div id="leaderboardList" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <strong>Quick Actions</strong>
+        <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
+          <button class="ghost" id="demoFill">Load Demo Posts</button>
+          <button class="ghost" id="exportBtn">Export Data (JSON)</button>
+          <button class="ghost danger" id="wipeBtn" style="background:#2b1b1b;color:#ffb3b3">Wipe Local Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Built for rapid MVP testing — local only. Later: Firebase backend, AI meme generator, monetization.</footer>
+</div>
+
+<script>
+/* -------------------------
+   Simple Bharat Roast MVP
+   - Single-file frontend
+   - Uses localStorage as DB
+   - Features: register/login, posts (anon/named), upvote, flag, leaderboard, templates, search, sort
+   ------------------------- */
+
+const dbKey = 'bharat_roast_db_v1';
+let state = {
+  users: [],    // {id, username, displayName, score}
+  posts: [],    // {id, authorId?, authorName, content, anonymous, upvotes, flags, createdAt, tone}
+  currentUserId: null
+};
+
+// ----- Utilities -----
+function uid(prefix='id') { return prefix + '_' + Math.random().toString(36).slice(2,9); }
+function now(){ return new Date().toISOString(); }
+function saveState(){ localStorage.setItem(dbKey, JSON.stringify(state)); }
+function loadState(){
+  const raw = localStorage.getItem(dbKey);
+  if(raw){ try{ state = JSON.parse(raw); } catch(e){ console.error(e); localStorage.removeItem(dbKey); } }
+  // ensure arrays
+  state.users = state.users || [];
+  state.posts = state.posts || [];
+  state.currentUserId = state.currentUserId || null;
+}
+function notify(msg, danger=false){
+  const n = document.getElementById('notif');
+  n.innerText = msg; n.style.display='block';
+  n.style.background = danger? '#b01c1c' : '#08a045';
+  setTimeout(()=> n.style.display='none', 2200);
+}
+// ----- End utils -----
+
+// ----- Init default data if empty -----
+function ensureSeed(){
+  if(state.users.length===0){
+    const u1 = {id:uid('u'), username:'roastlord', displayName:'RoastLord', score: 10};
+    const u2 = {id:uid('u'), username:'savage_sai', displayName:'SavageSai', score: 8};
+    state.users.push(u1,u2);
+  }
+  if(state.posts.length===0){
+    const sample = [
+      {id:uid('p'), authorId:state.users[0].id, authorName:state.users[0].displayName, content:"Indian parents: \"Beta phone mat chalao\" — also watching reels at 2AM 😂", anonymous:false, upvotes:12, flags:0, createdAt: new Date(Date.now()-1000*60*60*6).toISOString(), tone:'witty'},
+      {id:uid('p'), authorId:null, authorName:'Anonymous', content:"School taught us Pythagoras but not how to handle relatives 😭", anonymous:true, upvotes:9, flags:0, createdAt: new Date(Date.now()-1000*60*60*2).toISOString(), tone:'savage'},
+      {id:uid('p'), authorId:state.users[1].id, authorName:state.users[1].displayName, content:"Unpopular opinion: Kota motivation is temporary consumerism of hope", anonymous:false, upvotes:6, flags:0, createdAt: new Date(Date.now()-1000*60*60*1).toISOString(), tone:'chill'}
+    ];
+    state.posts.push(...sample);
+  }
+  saveState();
+}
+
+// ----- Rendering -----
+function renderUserArea(){
+  const userArea = document.getElementById('user-area');
+  userArea.innerHTML = '';
+  if(state.currentUserId){
+    const user = state.users.find(u=>u.id===state.currentUserId);
+    const el = document.createElement('div');
+    el.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
+      <div class="badge">${user.displayName[0] || 'U'}</div>
+      <div style="text-align:right">
+        <div style="font-weight:700">${user.displayName}</div>
+        <div class="small">@${user.username} · Score ${user.score||0}</div>
+      </div>
+      <div style="width:10px"></div>
+      <button class="ghost" id="logoutBtn">Logout</button>
+    </div>`;
+    userArea.appendChild(el);
+    document.getElementById('logoutBtn').onclick = ()=>{ state.currentUserId = null; saveState(); renderAll(); notify('Logged out') };
+  } else {
+    const el = document.createElement('div');
+    el.innerHTML = `<div style="display:flex;gap:8px">
+      <button class="ghost" id="quickReg">Quick Join</button>
+      <button class="ghost" id="openLogin">Login</button>
+    </div>`;
+    userArea.appendChild(el);
+    document.getElementById('quickReg').onclick = quickRegister;
+    document.getElementById('openLogin').onclick = showLoginPrompt;
+  }
+}
+
+function timeAgo(iso){
+  const d = new Date(iso); const diff = Date.now() - d.getTime();
+  if(diff < 60000) return Math.round(diff/1000) + 's';
+  if(diff < 3600000) return Math.round(diff/60000) + 'm';
+  if(diff < 86400000) return Math.round(diff/3600000) + 'h';
+  return d.toLocaleDateString();
+}
+
+function renderFeed(){
+  const feed = document.getElementById('feed');
+  feed.innerHTML = '';
+  // get posts list based on search & sort
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+  let posts = state.posts.slice();
+
+  if(q) posts = posts.filter(p => (p.content||'').toLowerCase().includes(q) || (p.authorName||'').toLowerCase().includes(q));
+
+  if(sort === 'top') posts.sort((a,b)=> (b.upvotes||0) - (a.upvotes||0) || new Date(b.createdAt)-new Date(a.createdAt));
+  else posts.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
+
+  posts.forEach(p=>{
+    const container = document.createElement('div');
+    container.className = 'post card';
+    container.innerHTML = `
+      <div class="meta">
+        <div>
+          <div class="author">${p.authorName || 'Anonymous'}</div>
+          <div class="small">${timeAgo(p.createdAt)} · ${p.tone || 'witty'}</div>
+        </div>
+        <div class="small">${p.upvotes || 0} ▲</div>
+      </div>
+      <div class="content">${escapeHtml(p.content)}</div>
+      <div class="actions">
+        <button class="icon-btn" data-action="upvote" data-id="${p.id}">▲ Upvote</button>
+        <button class="icon-btn" data-action="reply" data-id="${p.id}">💬 Reply</button>
+        <button class="icon-btn" data-action="flag" data-id="${p.id}">⚑ Flag</button>
+        <button class="icon-btn" data-action="share" data-id="${p.id}">⤴ Share</button>
+      </div>
+    `;
+    feed.appendChild(container);
+  });
+
+  // wire action buttons
+  feed.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.onclick = (e)=>{
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+      if(action==='upvote') handleUpvote(id, btn);
+      if(action==='flag') handleFlag(id);
+      if(action==='reply') handleReply(id);
+      if(action==='share') handleShare(id);
+    };
+  });
+}
+
+function renderLeaderboard(){
+  const box = document.getElementById('leaderboardList');
+  box.innerHTML = '';
+  const sorted = state.users.slice().sort((a,b)=> (b.score||0)-(a.score||0));
+  sorted.slice(0,8).forEach(u=>{
+    const row = document.createElement('div');
+    row.className = 'leaderboard-row';
+    row.innerHTML = `<div>${u.displayName || u.username}</div><div class="small">Score: ${u.score||0}</div>`;
+    box.appendChild(row);
+  });
+}
+
+// escape for safety
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, (m)=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+// ----- Actions -----
+function quickRegister(){
+  const uname = 'user' + Math.floor(Math.random()*9000+1000);
+  const user = { id: uid('u'), username: uname, displayName: uname, score: 0 };
+  state.users.push(user);
+  state.currentUserId = user.id;
+  saveState();
+  renderAll();
+  notify('Quick account created: @' + uname);
+}
+
+function showLoginPrompt(){
+  const uname = prompt('Enter username (registered):');
+  if(!uname) return;
+  const user = state.users.find(u=>u.username === uname);
+  if(!user){ if(confirm('User not found. Create new user with this username?')) {
+      const newu = {id:uid('u'), username: uname, displayName: uname, score: 0};
+      state.users.push(newu); state.currentUserId = newu.id; saveState(); renderAll(); notify('Account created'); return;
+    } else { return; }
+  }
+  state.currentUserId = user.id; saveState(); renderAll(); notify('Logged in as @' + user.username);
+}
+
+function handlePost(){
+  const content = document.getElementById('postContent').value.trim();
+  if(!content) return notify('Type something to post', true);
+  const anon = document.getElementById('postAnon').checked;
+  const tone = document.getElementById('postTone').value;
+  if(!state.currentUserId && !confirm('You are not logged in. Post will be anonymous. Continue?')) return;
+  const author = state.users.find(u=>u.id===state.currentUserId);
+  const post = {
+    id: uid('p'),
+    authorId: anon ? null : (author? author.id : null),
+    authorName: anon ? 'Anonymous' : (author? author.displayName : 'Anonymous'),
+    content,
+    anonymous: !!anon,
+    upvotes: 0, flags: 0,
+    createdAt: now(),
+    tone
+  };
+  state.posts.unshift(post);
+  saveState();
+  document.getElementById('postContent').value = '';
+  notify('Posted');
+  renderAll();
+}
+
+// Upvote: allow only once per user (tracked in local storage map)
+function handleUpvote(postId, btn){
+  // require login to upvote
+  if(!state.currentUserId){ if(!confirm('Login to upvote? Quick register?')) return; quickRegister(); }
+  const userId = state.currentUserId;
+  // track voted map in localStorage per user
+  const voteKey = 'votes_by_' + userId;
+  const voted = JSON.parse(localStorage.getItem(voteKey) || '[]');
+  if(voted.includes(postId)) { notify('Already upvoted', true); return; }
+  // update
+  const post = state.posts.find(p=>p.id===postId);
+  post.upvotes = (post.upvotes||0) + 1;
+  // increase author score if author present
+  if(post.authorId){
+    const author = state.users.find(u=>u.id===post.authorId);
+    if(author){ author.score = (author.score||0) + 1; }
+  }
+  voted.push(postId);
+  localStorage.setItem(voteKey, JSON.stringify(voted));
+  saveState();
+  renderAll();
+  notify('Upvoted');
+}
+
+function handleFlag(postId){
+  if(!state.currentUserId){ if(!confirm('Login to flag?')) return; quickRegister(); }
+  const post = state.posts.find(p=>p.id===postId);
+  post.flags = (post.flags||0) + 1;
+  // if flags exceed threshold auto-hide (soft delete)
+  if(post.flags >= 5){
+    // remove permanently
+    state.posts = state.posts.filter(x=>x.id!==postId);
+    notify('Post removed for multiple flags', true);
+  } else {
+    notify('Flag recorded');
+  }
+  saveState();
+  renderAll();
+}
+
+function handleReply(postId){
+  const t = prompt('Write a short reply (will be posted as a new post referencing original):');
+  if(!t) return;
+  const original = state.posts.find(p=>p.id===postId);
+  const replyText = 'Reply to "' + (original.content.split('\n')[0].slice(0,80)) + '":\n' + t;
+  document.getElementById('postContent').value = replyText;
+  document.getElementById('postAnon').checked = false;
+  window.scrollTo({top:0, behavior:'smooth'});
+  notify('Reply ready in composer');
+}
+
+function handleShare(postId){
+  const post = state.posts.find(p=>p.id===postId);
+  const txt = `${post.authorName}: ${post.content}\n— via Bharat Roast`;
+  if(navigator.share){ navigator.share({text:txt}).catch(()=>{}); }
+  else {
+    // fallback: copy to clipboard
+    navigator.clipboard.writeText(txt).then(()=> notify('Post copied to clipboard'));
+  }
+}
+
+// Templates
+function initTemplates(){
+  document.querySelectorAll('.template').forEach(t=>{
+    t.onclick = ()=> {
+      const text = t.getAttribute('data-t');
+      document.getElementById('postContent').value = text;
+      document.getElementById('postAnon').checked = true;
+      document.getElementById('postContent').focus();
+      notify('Template loaded');
+    };
+  });
+  document.getElementById('useTemplateBtn').onclick = ()=> {
+    document.querySelector('.template').scrollIntoView({behavior:'smooth', block:'center'});
+    notify('Choose a template');
+  };
+}
+
+// Demo filler
+function loadDemo(){
+  ensureSeed();
+  notify('Demo posts loaded');
+  renderAll();
+}
+
+// Export / wipe
+function exportData(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'bharatroast-data.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function wipeAll(){
+  if(!confirm('Wipe local data? This will remove all posts and users.')) return;
+  localStorage.removeItem(dbKey);
+  location.reload();
+}
+
+// ----- Wiring UI events -----
+document.getElementById('postBtn').onclick = handlePost;
+document.getElementById('floatingPost').onclick = ()=> { window.scrollTo({top:0,behavior:'smooth'}); document.getElementById('postContent').focus(); };
+document.getElementById('demoFill').onclick = loadDemo;
+document.getElementById('exportBtn').onclick = exportData;
+document.getElementById('wipeBtn').onclick = wipeAll;
+document.getElementById('clearBtn').onclick = ()=>{ document.getElementById('searchInput').value=''; renderAll(); };
+document.getElementById('searchInput').oninput = ()=> renderFeed();
+document.getElementById('sortSelect').onchange = ()=> renderFeed();
+
+// keyboard shortcut: Ctrl+Enter posts
+document.getElementById('postContent').addEventListener('keydown', (e)=> { if(e.ctrlKey && e.key==='Enter') handlePost(); });
+
+// ----- Main render function -----
+function renderAll(){
+  loadState();
+  ensureSeed();
+  renderUserArea();
+  renderFeed();
+  renderLeaderboard();
+  initTemplates();
+}
+
+// load on start
+loadState();
+ensureSeed();
+renderAll();
+
+</script>
+</body>
+</html>

@@ -8,17 +8,17 @@
 <link rel="manifest" href="site.webmanifest">
 <style>
   /* ---------------------------
-     Base theme & utilities (Multi-Colored Hot Theme)
+     Base theme & utilities (Multi-Colored Hot Theme - Cyan Edition)
      --------------------------- */
   :root{
-    /* New Palette: Deep Purple-Black (for text/cards), NEON Hot Accents */
-    --bg-primary:#08080A; /* Used for base dark elements */
-    --card:#1A031A; /* Very dark card, slightly purple tint for contrast */
+    /* New Palette: Deep Purple-Black (for text/cards), NEON Hot/Cyan Accents */
+    --bg-primary:#05050C; /* Very dark blue-black base */
+    --card:#100318; /* Very dark card, slightly purple tint for contrast */
     --muted:#A0A0A9; 
-    --accent:#FF073A; /* Neon Hot Pink/Red */
-    --accent-2:#FBE818; /* Electric Yellow/Gold */
+    --accent:#FF073A; /* Neon Hot Pink/Red (Kept) */
+    --accent-2:#00FFFF; /* 🔥 ELECTRIC CYAN (NEW) */
     --glass: rgba(255,255,255,0.05);
-    --glass-fixed: rgba(26, 3, 26, 0.85); /* Dark, slightly tinted glass for fixed bars */
+    --glass-fixed: rgba(16, 3, 24, 0.85); /* Dark, slightly tinted glass for fixed bars */
     --success:#08a045;
     --danger:#FF4D4F;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -26,10 +26,10 @@
   }
   html,body{
     height:100%; margin:0;
-    /* --- NEW FUN & MULTI-COLORED HOT BACKGROUND --- */
+    /* --- NEW FUN & MULTI-COLORED HOT BACKGROUND (Added Cyan, Reduced Yellow) --- */
     background:
-        /* 1. Base Fiery Gradient: Hot Red, Orange, Yellow, Purple */
-        linear-gradient(135deg, #FF073A 0%, #FF8C00 30%, #FBE818 60%, #9933FF 100%);
+        /* 1. Extended Fiery Gradient: Pink, Orange, CYAN, Violet, Purple */
+        linear-gradient(145deg, #FF073A 0%, #FF8C00 25%, #00FFFF 55%, #3300FF 75%, #9933FF 100%);
     color:#e8eef6; /* Light text for contrast */
     overflow-x: hidden; /* CRITICAL: Prevent horizontal scroll */
   }
@@ -76,7 +76,7 @@
   .nav-btn:active{ transform: scale(0.95); }
   .nav-btn .icon { font-size: 26px; }
   .nav-btn .icon-small{ font-size: 22px; }
-  .nav-btn.active{ color: var(--accent-2); } /* Use gold for active accent */
+  .nav-btn.active{ color: var(--accent-2); } /* Use CYAN for active accent */
 
   /* Media Query for mobile/tablet screens */
   @media(max-width:980px){
@@ -151,7 +151,7 @@
   /* Cards & layout */
   .card{
     /* Use a dark, slightly tinted background for the cards to stand out on the hot background */
-    background:linear-gradient(180deg, #200520 0%, #1A031A 100%); /* Adjusted card gradient to match new theme */
+    background:linear-gradient(180deg, #1A031E 0%, #100318 100%); /* Adjusted card gradient to match new theme */
     padding:16px;
     border-radius:var(--radius);
     margin-bottom:14px;
@@ -160,29 +160,29 @@
   }
   .small{font-size:12px;color:var(--muted)}
   .btn{
-    background:var(--accent-2); /* Use bright gold/yellow for main button */
+    background:var(--accent-2); /* Use bright CYAN for main button */
     border:none;
     padding:10px 14px;
     border-radius:10px;
     color:#000; 
     cursor:pointer;
     font-weight:700;
-    box-shadow:0 4px 10px rgba(251, 232, 24, 0.5); /* Yellow shadow */
+    box-shadow:0 4px 10px rgba(0, 255, 255, 0.5); /* CYAN shadow */
   }
   .btn:active{transform:scale(0.98)}
   
   /* --- GHOST BUTTON VISIBILITY FIX (Kept) --- */
   .ghost{
     background:transparent;
-    /* Use a solid white/accent border for high contrast */
-    border:1px solid rgba(251, 232, 24, 0.4); /* Accent-2 with 40% transparency */
+    /* Use a solid cyan/accent border for high contrast */
+    border:1px solid rgba(0, 255, 255, 0.4); /* Accent-2 (Cyan) with 40% transparency */
     padding:10px 12px;
     border-radius:10px;
     color:#e8eef6; /* Use main text color (light) for visibility */
     cursor:pointer;
     font-weight: 500;
   }
-  .ghost:hover{background:rgba(251, 232, 24, 0.1); color: #fff;} /* Light background tint on hover */
+  .ghost:hover{background:rgba(0, 255, 255, 0.1); color: #fff;} /* Light cyan tint on hover */
   .ghost:active{transform:scale(0.98)}
   /* --- END GHOST BUTTON FIX --- */
 
@@ -205,7 +205,7 @@
   .post{
     padding:16px;
     border-radius:var(--radius);
-    background:linear-gradient(180deg,#220522, #1A031A); /* Slightly deeper background for posts */
+    background:linear-gradient(180deg,#1A051A, #100318); /* Slightly deeper background for posts */
     border:1px solid rgba(255,255,255,0.04);
   }
   .post:hover{
@@ -443,7 +443,7 @@
     <span class="icon">✨</span>
     <span>Explore</span>
   </button>
-  <button class="nav-btn" id="mobileOpenDMs" title="DMs">
+  <button class="nav-btn" id="mobileOpenDMs" title="Messages">
     <span class="icon-small">💬</span>
     <span>Messages</span>
   </button>
@@ -1240,7 +1240,7 @@ function openThread(threadId){
 
   const root = document.getElementById('dmThread');
   root.innerHTML = t.messages.map(m=>
-    `<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(255, 7, 58, 0.2)' : 'rgba(251, 232, 24, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;">
+    `<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(255, 7, 58, 0.2)' : 'rgba(0, 255, 255, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;">
       <strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} 
       <div class="u-xxs muted" style="margin-top: 2px;">${timeAgo(m.at)}</div>
     </div>`

@@ -11,8 +11,8 @@
      Base theme & utilities (Vibrant Dark Mode)
      --------------------------- */
   :root{
-    /* New Palette: Deep Charcoal, Electric Blue Accent */
-    --bg:#08080A; --card:#141418; --muted:#A0A0A9; --accent:#1677FF; --accent-2:#00C4CC;
+    /* New Palette: Deep Charcoal, Gold/Yellow Accent (CORRECTED) */
+    --bg:#08080A; --card:#141418; --muted:#A0A0A9; --accent:#FFC300; --accent-2:#FF9900; /* Corrected to Gold/Amber */
     --glass: rgba(255,255,255,0.05);
     --glass-fixed: rgba(14, 14, 16, 0.8); /* Used for fixed bars */
     --success:#08a045;
@@ -136,7 +136,8 @@
   /* Topbar (Desktop) */
   .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--card);border-radius:var(--radius);margin-bottom:8px;box-shadow:0 6px 24px rgba(0,0,0,0.45)}
   .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;letter-spacing:0.6px}
+  /* Logo updated with new gradient and black text */
+  .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:18px;letter-spacing:0.6px}
   .title{font-size:20px;font-weight:800}
   .subtitle{font-size:12px;color:var(--muted)}
   .row{display:flex;gap:10px;align-items:center}
@@ -151,15 +152,16 @@
     border: 1px solid rgba(255,255,255,0.05); /* subtle border */
   }
   .small{font-size:12px;color:var(--muted)}
+  /* Button updated with new shadow and black text */
   .btn{
     background:var(--accent);
     border:none;
     padding:10px 14px;
     border-radius:10px;
-    color:#fff;
+    color:#000;
     cursor:pointer;
     font-weight:700;
-    box-shadow:0 4px 10px rgba(22, 119, 255, 0.4);
+    box-shadow:0 4px 10px rgba(255, 195, 0, 0.4);
   }
   .btn:active{transform:scale(0.98)}
   .ghost{
@@ -214,7 +216,8 @@
     font-weight:600;
   }
   .icon-btn:hover{background:rgba(255,255,255,0.08);}
-  .icon-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(22, 119, 255, 0.5);}
+  /* Active icon button updated with black text and new shadow */
+  .icon-btn.active{background:var(--accent);color:#000;box-shadow:0 2px 8px rgba(255, 195, 0, 0.5);}
   .badge{background:var(--accent-2);padding:4px 10px;border-radius:999px;font-size:12px;color:#000;font-weight:700}
   
   /* Right column specifics (still used on desktop) */
@@ -223,7 +226,7 @@
   .template:hover{background:rgba(255,255,255,0.06);}
   .leaderboard-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
 
-  /* Floating Button */
+  /* Floating Button updated with new gradient and black text */
   .post-floating{
     position:fixed;
     right:24px;
@@ -233,8 +236,8 @@
     padding:16px;
     border-radius:50%;
     font-weight:800;
-    color:#fff;
-    box-shadow:0 12px 40px rgba(0,0,0,0.8);
+    color:#000;
+    box-shadow:0 12px 40px rgba(255, 195, 0, 0.8);
     cursor:pointer;
     z-index: 9999;
     font-size: 34px;
@@ -272,7 +275,7 @@
   .muted{color:var(--muted)}
   footer{opacity:0.6;text-align:center;margin-top:40px;padding-bottom: 20px; font-size:13px;color:var(--muted)}
   .u-xxs{font-size:11px;color:var(--muted)}
-  .avatar{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:20px}
+  .avatar{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;font-size:20px}
   input[type=file]{display:none}
   .media-preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .media-thumb{width:110px;height:80px;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,0.1)}
@@ -288,7 +291,6 @@
 <body>
 <div class="notif" id="notif"></div>
 
-<!-- App shell -->
 <div class="topbar card">
   <div class="brand">
     <div class="logo">BR</div>
@@ -298,7 +300,6 @@
     </div>
   </div>
 
-  <!-- Desktop Icons -->
   <div class="row">
     <button id="openExplore" class="ghost">🔍 Explore</button>
     <button id="openNotif" class="ghost">🔔 <span id="notifCount" style="margin-left:6px"></span></button>
@@ -309,9 +310,7 @@
 
 <div class="app" id="app">
 
-  <!-- Main column -->
   <div style="min-width: 0;">
-    <!-- Composer -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div><strong>Create Post</strong><div class="small">Share a truth, roast or image — keep it kind of spicy</div></div>
@@ -348,7 +347,6 @@
       </div>
     </div>
 
-    <!-- Stories -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div><strong>Stories</strong><div class="small">Short roasts & moments</div></div>
@@ -357,7 +355,6 @@
       <div class="stories" id="storiesRow" aria-label="Stories list"></div>
     </div>
 
-    <!-- Feed filters -->
     <div style="display:flex;gap:8px;margin:16px 16px 10px 16px; align-items: center; justify-content: space-between;">
       <input id="searchInput" class="search" placeholder="Search feed text, tags or author..." style="flex:1" />
       <select id="sortSelect" class="ghost" title="Sort" style="flex-grow:0; padding: 6px 10px;">
@@ -370,19 +367,16 @@
       </select>
     </div>
 
-    <!-- Feed -->
     <div id="feed" class="feed"></div>
 
     <button class="post-floating" id="floatingPost">➕</button>
 
-    <!-- Load more skeleton area -->
     <div id="loadingMore" style="display:none;margin-top:16px">
       <div class="card"><div class="skeleton" style="width:70%"></div><div style="height:10px"></div><div class="skeleton" style="width:90%"></div></div>
     </div>
 
   </div>
 
-  <!-- Right column (Only visible on Desktop) -->
   <div class="rightcol">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -410,6 +404,15 @@
     </div>
 
     <div class="card">
+      <strong>Roast Battle Arena</strong>
+      <div class="small" style="margin-top:8px">🔥 Weekly Hot Topic: <span style="color:var(--accent-2); font-weight:700" id="weeklyRoastTopic">#OfficeLife</span></div>
+      <div style="margin-top:12px">
+        <div class="small muted" style="margin-bottom: 10px;">The community votes for the ultimate roast!</div>
+        <button class="btn" id="openRoastBattleModal" style="width:100%; margin-bottom: 8px;">⚔️ Start a Roast Duel</button>
+        <button class="ghost" id="viewWeeklyRoasts" style="width:100%">View Top Roasts</button>
+      </div>
+    </div>
+    <div class="card">
       <strong>Leaderboard</strong>
       <div class="small" style="margin-top:8px">Top witty users (by likes)</div>
       <div id="leaderboardList" style="margin-top:12px"></div>
@@ -430,7 +433,6 @@
 
 <footer>Built for rapid MVP testing — local only. Later: Firebase backend, AI meme generator, monetization.</footer>
 
-<!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
 <div class="bottom-nav" id="bottomNav">
   <button class="nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'});" title="Feed">
     <span class="icon">🏠</span>
@@ -453,10 +455,6 @@
     <span>Profile</span>
   </button>
 </div>
-<!-- END BOTTOM NAVIGATION BAR -->
-
-
-<!-- DRAWERS & MODALS -->
 <div id="notifDrawer" class="drawer" aria-hidden="true">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <strong>🔔 Notifications</strong>
@@ -472,7 +470,6 @@
       <button class="ghost" id="closeProfileModal">✖</button>
     </div>
     <div class="small" id="profileUserMeta"></div>
-    <!-- User area buttons are moved here for mobile -->
     <div id="mobile-user-area-controls" style="margin-top:15px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between"></div>
     <h3 style="margin-top:20px; font-size:18px; border-top:1px dashed rgba(255,255,255,0.1); padding-top:15px;">My Posts</h3>
     <div id="profilePosts" style="margin-top:12px"></div>
@@ -597,7 +594,9 @@ function seedIfEmpty(){
     state.posts.push(
       {id:uid('p'), authorId:state.users[0].id, authorName:state.users[0].displayName, content:'Indian parents: "Beta phone mat chalao" — also watching reels at 2AM 😂', media:[], anonymous:false, likes:[state.users[1].id], comments:[{id:uid('c'), from:state.users[1].id, txt:'Facts!', at:nowISO()}], flags:0, createdAt:new Date(Date.now()-3600*1000*6).toISOString(), tone:'witty', tags:['Parents']},
       {id:uid('p'), authorId:null, authorName:'Anonymous', content:"School taught us Pythagoras but not how to handle relatives 😭", media:[], anonymous:true, likes:[], comments:[], flags:0, createdAt:new Date(Date.now()-3600*1000*2).toISOString(), tone:'savage', tags:['SchoolLife']},
-      {id:uid('p'), authorId:state.users[1].id, authorName:state.users[1].displayName, content:"Unpopular opinion: Kota motivation is temporary consumerism of hope", media:[], anonymous:false, likes:[state.users[0].id], comments:[], flags:0, createdAt:new Date(Date.now()-3600*1000*1).toISOString(), tone:'chill', tags:['KotaTruths']}
+      {id:uid('p'), authorId:state.users[1].id, authorName:state.users[1].displayName, content:"Unpopular opinion: Kota motivation is temporary consumerism of hope", media:[], anonymous:false, likes:[state.users[0].id], comments:[], flags:0, createdAt:new Date(Date.now()-3600*1000*1).toISOString(), tone:'chill', tags:['KotaTruths']},
+      // New post to demo the weekly topic #OfficeLife
+      {id:uid('p'), authorId:state.users[0].id, authorName:state.users[0].displayName, content:"The only thing harder than a deadline is pretending to be busy when the boss walks by. #OfficeLife", media:[], anonymous:false, likes:[], comments:[], flags:0, createdAt:new Date(Date.now()-3600*1000*0.5).toISOString(), tone:'witty', tags:['OfficeLife']}
     );
   }
   if(state.stories.length===0){
@@ -621,8 +620,9 @@ function renderUserArea(){
 
     // Desktop view
     const elDesk = document.createElement('div');
+    // Avatar text color is set to black for better contrast on yellow/gold background
     elDesk.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
-      <div class="avatar" style="width:36px;height:36px;font-size:16px">${sanitize(u.displayName[0]||'U')}</div>
+      <div class="avatar" style="width:36px;height:36px;font-size:16px; color:#000;">${sanitize(u.displayName[0]||'U')}</div>
       <div style="text-align:right">
         <div style="font-weight:700; font-size: 14px;">${sanitize(u.displayName)}</div>
         <div class="small">@${sanitize(u.username)}</div>
@@ -634,7 +634,7 @@ function renderUserArea(){
 
     // Mobile Profile View Controls (rendered inside the profile modal)
     mca.innerHTML = `
-      <button class="btn" id="logoutBtnMobile" style="background: var(--danger); box-shadow: none;">Logout</button>
+      <button class="btn" id="logoutBtnMobile" style="background: var(--danger); box-shadow: none; color:#fff;">Logout</button>
       <button class="ghost" id="toggleThemeModal">Theme</button>
       <button class="ghost" id="exportBtnModal">Export</button>
       <button class="ghost" id="wipeBtnModal">Wipe Data</button>
@@ -647,7 +647,7 @@ function renderUserArea(){
     // Set mobile profile icon
     document.getElementById('mobileProfileIcon').innerText = sanitize(u.displayName[0]||'U');
     document.getElementById('mobileProfileIcon').style.backgroundColor = 'var(--accent)';
-    document.getElementById('mobileProfileIcon').style.color = '#fff';
+    document.getElementById('mobileProfileIcon').style.color = '#000'; // Black text on yellow accent
     document.getElementById('mobileProfileIcon').style.borderRadius = '50%';
   } else {
     // Desktop View
@@ -804,7 +804,7 @@ function renderFeed(){
   let posts = state.posts.slice();
 
   if(q) posts = posts.filter(p => (p.content||'').toLowerCase().includes(q) || (p.authorName||'').toLowerCase().includes(q) || (p.tags||[]).join(' ').toLowerCase().includes(q));
-  if(topic) posts = posts.filter(p => (p.tags||[]).map(t=>t.toLowerCase()).includes(topic));
+  if(topic) posts = posts.filter(p => (p.tags||[]).map(t=>t.toLowerCase()).includes(topic.toLowerCase()));
   if(sort==='top') posts.sort((a,b)=> (b.likes||[]).length - (a.likes||[]).length || new Date(b.createdAt)-new Date(a.createdAt));
   else posts.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
 
@@ -817,10 +817,11 @@ function renderFeed(){
     const userAvatar = getUserDisplay(p.authorId, true);
     // media section
     const mediaHtml = p.media && p.media.length ? `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">${p.media.map(m=>`<img src="${m.src}" style="width:100%;max-height: 250px;object-fit:cover;border-radius:8px">`).join('')}</div>` : '';
+    // Note: The avatar style has `color:#000` to ensure contrast on the yellow/gold background
     el.innerHTML = `
       <div class="meta">
         <div style="display:flex;gap:12px;align-items:center">
-          <div class="avatar" style="cursor:pointer; width:40px;height:40px;font-size:16px; border-radius:50%" data-user="${p.authorId || ''}">${userAvatar.avatarText}</div>
+          <div class="avatar" style="cursor:pointer; width:40px;height:40px;font-size:16px; border-radius:50%; color:#000;" data-user="${p.authorId || ''}">${userAvatar.avatarText}</div>
           <div>
             <div class="author" style="cursor:pointer" data-user="${p.authorId || ''}">${sanitize(authorDisplay)} ${userAvatar.isAnon ? ' <span class="small">(Anon)</span>' : ''}</div>
             <div class="small">${timeAgo(p.createdAt)} · <span class="level" style="color:var(--accent-2); font-weight:700">${sanitize(tone)}</span></div>
@@ -1006,6 +1007,8 @@ function openProfileModal(userId){
   } else {
     followBtn.style.display = 'block';
     followBtn.innerText = (state.currentUserId && state.users.find(u=>u.id===state.currentUserId) && state.users.find(u=>u.id===state.currentUserId).following.includes(user.id)) ? 'Unfollow' : 'Follow';
+    // Ensure follow button text color is black for contrast
+    followBtn.style.color = '#000';
     followBtn.onclick = ()=> {
       if(!state.currentUserId){ if(!confirm('Login to follow?')) return; quickRegister(); return; }
       const me = state.users.find(u=>u.id===state.currentUserId);
@@ -1082,7 +1085,8 @@ function renderLeaderboard(){
     const row = document.createElement('div');
     row.className = 'leaderboard-row';
     const rank = i+1;
-    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent);">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
+    // Set rank number color to black for contrast
+    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent); color:#000;">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
     box.appendChild(row);
   });
 }
@@ -1102,12 +1106,12 @@ function openExploreContent(){
 
       <h3 style="font-size:18px; margin-top:0; color: var(--accent);">Trending Tags</h3>
       <div style="display:flex;flex-wrap:wrap;gap:10px; margin-bottom:20px" id="exploreTags">
-        <!-- Tags rendered dynamically or use static ones -->
         <div class="tag" data-tag="Parents">#Parents</div>
         <div class="tag" data-tag="SchoolLife">#SchoolLife</div>
         <div class="tag" data-tag="KotaTruths">#KotaTruths</div>
         <div class="tag" data-tag="Dating">#Dating</div>
         <div class="tag" data-tag="Bollywood">#Bollywood</div>
+        <div class="tag" data-tag="${WEEKLY_TOPIC}">#${WEEKLY_TOPIC}</div>
       </div>
 
       <h3 style="font-size:18px; color: var(--accent);">Top Posts (Grid View)</h3>
@@ -1129,7 +1133,8 @@ function openExploreContent(){
     const row = document.createElement('div');
     row.className = 'leaderboard-row';
     const rank = i+1;
-    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent);">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
+    // Set rank number color to black for contrast
+    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent); color:#000;">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
     lbBox.appendChild(row);
   });
 
@@ -1181,7 +1186,8 @@ function openThread(threadId){
   document.querySelector('#dmModal .modal-header strong').innerText = `Chat with ${partnerName}`;
 
   const root = document.getElementById('dmThread');
-  root.innerHTML = t.messages.map(m=>`<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(22, 119, 255, 0.2)' : 'rgba(0, 196, 204, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;"><strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} <div class="u-xxs muted" style="margin-top: 2px;">${timeAgo(m.at)}</div></div>`).join('');
+  // Updated chat bubble colors for better theme consistency
+  root.innerHTML = t.messages.map(m=>`<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(255, 195, 0, 0.2)' : 'rgba(255, 153, 0, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;"><strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} <div class="u-xxs muted" style="margin-top: 2px;">${timeAgo(m.at)}</div></div>`).join('');
   root.scrollTop = root.scrollHeight;
 
   document.getElementById('dmSend').onclick = ()=> {
@@ -1247,7 +1253,7 @@ document.getElementById('demoFill').onclick = ()=> {
     load();
     state.posts = [];
     seedIfEmpty(); // This will re-seed everything but we only care about posts
-    state.posts = state.posts.slice(0, 3); // Keep only the initial 3 posts
+    state.posts = state.posts.slice(0, 4); // Keep only the initial 4 posts (incl. the new one)
     save();
     renderAll();
     notify('Demo loaded');
@@ -1277,6 +1283,41 @@ function toggleTheme(){
 }
 
 /* -------------------------
+   Roast Battle Arena
+   ------------------------- */
+const WEEKLY_TOPIC = 'OfficeLife';
+
+function setupRoastBattle(){
+  const weeklyTopicEl = document.getElementById('weeklyRoastTopic');
+  if (weeklyTopicEl) {
+    weeklyTopicEl.innerText = `#${WEEKLY_TOPIC}`;
+  }
+
+  // Handle 'View Top Roasts' button click: filters the feed
+  document.getElementById('viewWeeklyRoasts').onclick = () => {
+    document.getElementById('topicSelect').value = WEEKLY_TOPIC;
+    renderFeed();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    notify(`Filtering by Weekly Roast Topic: #${WEEKLY_TOPIC}`);
+  };
+
+  // Handle 'Start a Roast Duel' button (placeholder for a future modal/feature)
+  document.getElementById('openRoastBattleModal').onclick = () => {
+    if (!state.currentUserId) return notify('Login to start a Roast Duel!', true);
+    notify('⚔️ Roast Duels are coming soon! Use the post composer with tag #OfficeLife to join the weekly battle.');
+  };
+
+  // Ensure the new topic is an option in the feed filter
+  const topicSelect = document.getElementById('topicSelect');
+  if (!Array.from(topicSelect.options).some(opt => opt.value === WEEKLY_TOPIC)) {
+    const newOption = document.createElement('option');
+    newOption.value = WEEKLY_TOPIC;
+    newOption.innerText = WEEKLY_TOPIC;
+    topicSelect.appendChild(newOption);
+  }
+}
+
+/* -------------------------
    Misc UI wiring
    ------------------------- */
 document.getElementById('floatingPost').onclick = ()=> { window.scrollTo({top:0,behavior:'smooth'}); document.getElementById('postContent').focus(); };
@@ -1290,6 +1331,7 @@ document.getElementById('topicSelect').onchange = ()=> renderFeed();
    ------------------------- */
 function renderAll(){
   load(); seedIfEmpty();
+  setupRoastBattle();
   renderUserArea();
   renderFeed();
   renderStories();

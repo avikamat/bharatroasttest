@@ -21,8 +21,95 @@
   html,body{height:100%;margin:0;background:linear-gradient(180deg,#070708 0%, #0b0b0c 100%);color:#e8eef6}
   *{box-sizing:border-box}
   img{max-width:100%;display:block}
+  /* Main app container uses the grid layout */
   .app{max-width:1080px;margin:0 auto;padding:18px;min-height:100vh;display:grid;grid-template-columns:1fr 360px;gap:18px}
-  @media(max-width:980px){ .app{grid-template-columns:1fr} .rightcol{order:2} }
+
+  /* ---------------------------
+     Mobile First Optimization (Instagram Inspired)
+     --------------------------- */
+  .bottom-nav{
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: none; /* Default hidden, show only on mobile */
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    background: var(--card);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    z-index: 10000; /* Ensure it is above everything */
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
+  }
+  .nav-btn{
+    display: flex; flex-direction: column; align-items: center;
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 11px; font-weight: 500; padding: 4px;
+    line-height: 1; /* Keep text compact */
+  }
+  .nav-btn .icon { font-size: 24px; }
+  .nav-btn .icon-small{ font-size: 20px; }
+  .nav-btn.active{ color: var(--accent); }
+
+  /* Media Query for mobile/tablet screens */
+  @media(max-width:980px){
+    .app{
+      grid-template-columns:1fr; /* Single column layout */
+      padding-bottom: 70px; /* Space for fixed bottom nav */
+      padding-left: 10px;
+      padding-right: 10px;
+      gap: 10px;
+    }
+    .rightcol{
+      display: none; /* Hide the whole right column */
+    }
+    .topbar .row{
+      display: none; /* Hide the extra buttons in the top bar */
+    }
+    .topbar{
+      position: sticky; top: 0; z-index: 999;
+      background: var(--bg); /* Ensure topbar is visible over scrolling content */
+    }
+    .bottom-nav{
+      display: flex; /* Show bottom navigation */
+    }
+    .logo{
+      width: 38px; height: 38px; font-size: 14px;
+    }
+    .title{
+      font-size: 16px;
+    }
+    .subtitle{
+      display: none; /* Hide subtitle for cleaner look */
+    }
+    /* Floating button adjusted to sit above the bottom nav */
+    .post-floating{
+      right: 20px; bottom: 80px;
+      width: 50px; height: 50px;
+      padding: 10px; font-size: 30px;
+    }
+    .composer{
+      flex-direction: column;
+    }
+    .composer .compose-actions{
+      flex-direction: row; /* Change composer actions to row for mobile */
+      min-width: unset;
+      gap: 6px;
+    }
+    .composer .compose-actions button{
+      flex: 1; /* Make buttons take equal space */
+      padding: 8px 10px;
+    }
+    #postBtn{
+      order: -1; /* Move post button to the left */
+    }
+    .drawer{
+      width: 100%;
+      right: -100%;
+      transition: 0.3s ease-in-out;
+    }
+    .drawer.open{
+      right: 0;
+    }
+  }
+
 
   /* Topbar */
   .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--card);border-radius:var(--radius);margin-bottom:4px;box-shadow:0 6px 24px rgba(0,0,0,0.45)}
@@ -55,16 +142,16 @@
   .icon-btn.active{border-color:var(--accent);color:var(--accent)}
   .badge{background:rgba(255,255,255,0.04);padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
 
-  /* Right column specifics */
+  /* Right column specifics (still used on desktop) */
   .rightcol .card{position:sticky;top:18px}
   .template{padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px dashed rgba(255,255,255,0.03);font-size:14px}
   .leaderboard-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
 
   /* Floating */
-  .post-floating{position:fixed;right:18px;bottom:18px;background:var(--accent);border:none;padding:14px;border-radius:50%;font-weight:800;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer}
+  .post-floating{position:fixed;right:18px;bottom:18px;background:var(--accent);border:none;padding:14px;border-radius:50%;font-weight:800;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer; z-index: 9999;}
 
   /* Notifications */
-  .notif{position:fixed;left:50%;transform:translateX(-50%);top:18px;background:#08a045;padding:10px 16px;border-radius:10px;color:#fff;display:none}
+  .notif{position:fixed;left:50%;transform:translateX(-50%);top:18px;background:#08a045;padding:10px 16px;border-radius:10px;color:#fff;display:none;z-index: 10001;}
   .danger{background:#b01c1c}
 
   /* Tags */
@@ -80,11 +167,11 @@
   .explore-item{border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#111,#0b0b0c);height:140px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
 
   /* Modal/drawer */
-  .drawer{position:fixed;right:-360px;top:0;height:100%;width:360px;background:#111;border-left:1px solid #333;padding:14px;transition:0.28s;overflow-y:auto;z-index:999}
+  .drawer{position:fixed;right:-360px;top:0;height:100%;width:360px;background:#111;border-left:1px solid #333;padding:14px;transition:0.28s;overflow-y:auto;z-index:9999}
   .drawer.open{right:0}
   .modal-overlay{display:none;position:fixed;top:0;left:0;height:100%;width:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999}
   .modal-overlay.show{display:flex}
-  .modal{background:#121214;padding:18px;border-radius:12px;width:94%;max-width:520px}
+  .modal{background:#121214;padding:18px;border-radius:12px;width:94%;max-width:520px;max-height: 90vh; overflow-y: auto;}
   .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 
   /* tiny UX */
@@ -112,6 +199,7 @@
     </div>
   </div>
 
+  <!-- This 'row' section is hidden on mobile and only shown on desktop -->
   <div class="row">
     <button id="openExplore" class="ghost">Explore</button>
     <button id="openNotif" class="ghost">🔔 <span id="notifCount" style="margin-left:6px"></span></button>
@@ -194,7 +282,7 @@
 
   </div>
 
-  <!-- Right column -->
+  <!-- Right column (Only visible on Desktop) -->
   <div class="rightcol">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -243,6 +331,32 @@
 
 <footer>Built for rapid MVP testing — local only. Later: Firebase backend, AI meme generator, monetization.</footer>
 
+<!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
+<div class="bottom-nav" id="bottomNav">
+  <button class="nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'});" title="Feed">
+    <span class="icon">🏠</span>
+    <span>Feed</span>
+  </button>
+  <button class="nav-btn" id="mobileOpenExplore" title="Explore">
+    <span class="icon">🔍</span>
+    <span>Explore</span>
+  </button>
+  <button class="nav-btn" id="mobileOpenDMs" title="DMs">
+    <span class="icon-small">✉️</span>
+    <span>DMs</span>
+  </button>
+  <button class="nav-btn" id="mobileOpenNotif" title="Notifications">
+    <span class="icon-small">🔔</span>
+    <span>Notifs<span id="mobileNotifCount"></span></span>
+  </button>
+  <button class="nav-btn" id="mobileProfileNav" title="Profile">
+    <span id="mobileProfileIcon" class="icon-small">👤</span>
+    <span>Profile</span>
+  </button>
+</div>
+<!-- END BOTTOM NAVIGATION BAR -->
+
+
 <!-- DRAWERS & MODALS -->
 <div id="notifDrawer" class="drawer" aria-hidden="true">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -259,6 +373,8 @@
       <button class="ghost" id="closeProfileModal">✖</button>
     </div>
     <div class="small" id="profileUserMeta"></div>
+    <!-- User area buttons are moved here for mobile -->
+    <div id="mobile-user-area-controls" style="margin-top:10px;display:flex;gap:8px;justify-content:space-between"></div>
     <div id="profilePosts" style="margin-top:12px"></div>
   </div>
 </div>
@@ -279,12 +395,12 @@
       <strong>Direct Messages</strong>
       <button class="ghost" id="closeDMs">Close</button>
     </div>
-    <div style="display:flex;gap:8px">
-      <div style="width:33%;border-right:1px solid rgba(255,255,255,0.02);padding-right:8px">
+    <div style="display:flex;gap:8px;flex-direction: column;">
+      <div style="border-bottom:1px solid rgba(255,255,255,0.02);padding-bottom:8px">
         <div id="dmList"></div>
       </div>
       <div style="flex:1">
-        <div id="dmThread"></div>
+        <div id="dmThread" style="max-height: 250px; overflow-y: auto; padding-bottom: 8px;"></div>
         <div style="margin-top:8px;display:flex;gap:8px">
           <input id="dmInput" placeholder="Write message..." style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
           <button id="dmSend" class="btn">Send</button>
@@ -394,35 +510,66 @@ function seedIfEmpty(){
 }
 
 /* -------------------------
-   Render: user area
+   Render: user area (desktop) and mobile profile controls
    ------------------------- */
 function renderUserArea(){
   const ua = document.getElementById('user-area');
+  const mca = document.getElementById('mobile-user-area-controls');
   ua.innerHTML = '';
+  mca.innerHTML = '';
+
   if(state.currentUserId){
     const u = state.users.find(x=>x.id===state.currentUserId);
     if(!u){ state.currentUserId = null; save(); renderUserArea(); return; }
-    const el = document.createElement('div');
-    el.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
+    
+    // Desktop view
+    const elDesk = document.createElement('div');
+    elDesk.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
       <div class="avatar">${sanitize(u.displayName[0]||'U')}</div>
       <div style="text-align:right">
         <div style="font-weight:700">${sanitize(u.displayName)}</div>
         <div class="small">@${sanitize(u.username)} · <span class="level">${Math.floor(u.xp/50)||1}★</span></div>
       </div>
       <div style="width:10px"></div>
-      <button class="ghost" id="logoutBtn">Logout</button>
+      <button class="ghost" id="logoutBtnDesk">Logout</button>
     </div>`;
-    ua.appendChild(el);
-    document.getElementById('logoutBtn').onclick = ()=>{ state.currentUserId = null; save(); renderAll(); notify('Logged out') };
+    ua.appendChild(elDesk);
+    document.getElementById('logoutBtnDesk').onclick = ()=>{ state.currentUserId = null; save(); renderAll(); notify('Logged out') };
+    
+    // Mobile Profile View Controls
+    mca.innerHTML = `
+      <button class="ghost" id="logoutBtnMobile">Logout</button>
+      <button class="ghost" id="toggleTheme">Toggle Theme</button>
+      <button class="ghost" id="exportBtn">Export Data</button>
+      <button class="ghost danger" id="wipeBtn" style="background:#2b1b1b;color:#ffb3b3">Wipe Data</button>
+    `;
+    document.getElementById('logoutBtnMobile').onclick = ()=>{ state.currentUserId = null; save(); renderAll(); notify('Logged out') };
+    document.getElementById('exportBtn').onclick = exportData;
+    document.getElementById('wipeBtn').onclick = wipeAll;
+    
+    // Set mobile profile icon
+    document.getElementById('mobileProfileIcon').innerText = sanitize(u.displayName[0]||'U');
   } else {
-    const el = document.createElement('div');
-    el.innerHTML = `<div style="display:flex;gap:8px">
-      <button class="ghost" id="quickReg">Quick Join</button>
-      <button class="ghost" id="openLogin">Login</button>
+    // Desktop View
+    const elDesk = document.createElement('div');
+    elDesk.innerHTML = `<div style="display:flex;gap:8px">
+      <button class="ghost" id="quickRegDesk">Quick Join</button>
+      <button class="ghost" id="openLoginDesk">Login</button>
     </div>`;
-    ua.appendChild(el);
-    document.getElementById('quickReg').onclick = quickRegister;
-    document.getElementById('openLogin').onclick = showLoginPrompt;
+    ua.appendChild(elDesk);
+    document.getElementById('quickRegDesk').onclick = quickRegister;
+    document.getElementById('openLoginDesk').onclick = showLoginPrompt;
+    
+    // Mobile Profile View Controls (Non-logged in)
+    mca.innerHTML = `
+      <button class="btn" id="quickRegMobile">Quick Join</button>
+      <button class="ghost" id="openLoginMobile">Login</button>
+    `;
+    document.getElementById('quickRegMobile').onclick = quickRegister;
+    document.getElementById('openLoginMobile').onclick = showLoginPrompt;
+    
+    // Set mobile profile icon back to default
+    document.getElementById('mobileProfileIcon').innerText = '👤';
   }
 }
 
@@ -703,6 +850,9 @@ function openProfileModal(userId){
   document.getElementById('profilePosts').innerHTML = postsHtml || '<div class="small muted">No posts yet</div>';
   document.getElementById('profileModal').classList.add('show');
 
+  // Rerender user area controls for current user state
+  renderUserArea();
+
   // add follow button dynamically
   let followBtn = document.getElementById('profileFollowBtn');
   if(!followBtn){
@@ -711,16 +861,38 @@ function openProfileModal(userId){
     followBtn.className = 'btn';
     document.querySelector('#profileModal .modal').insertBefore(followBtn, document.getElementById('profilePosts'));
   }
-  followBtn.innerText = (state.currentUserId && state.users.find(u=>u.id===state.currentUserId).following.includes(user.id)) ? 'Unfollow' : 'Follow';
-  followBtn.onclick = ()=> {
-    if(!state.currentUserId){ if(!confirm('Login to follow?')) return; quickRegister(); }
-    const me = state.users.find(u=>u.id===state.currentUserId);
-    if(me.following.includes(user.id)){ me.following = me.following.filter(x=>x!==user.id); user.followers = user.followers.filter(x=>x!==me.id); notify('Unfollowed'); }
-    else { me.following.push(user.id); user.followers = user.followers || []; user.followers.push(me.id); notify('Followed'); addNotification(user.id, `${me.displayName} followed you`); }
-    save(); renderAll(); openProfileModal(user.id);
-  };
+  
+  if(state.currentUserId === user.id) {
+    followBtn.style.display = 'none'; // Hide follow button on own profile
+  } else {
+    followBtn.style.display = 'block';
+    followBtn.innerText = (state.currentUserId && state.users.find(u=>u.id===state.currentUserId).following.includes(user.id)) ? 'Unfollow' : 'Follow';
+    followBtn.onclick = ()=> {
+      if(!state.currentUserId){ if(!confirm('Login to follow?')) return; quickRegister(); }
+      const me = state.users.find(u=>u.id===state.currentUserId);
+      if(me.following.includes(user.id)){ me.following = me.following.filter(x=>x!==user.id); user.followers = user.followers.filter(x=>x!==me.id); notify('Unfollowed'); }
+      else { me.following.push(user.id); user.followers = user.followers || []; user.followers.push(me.id); notify('Followed'); addNotification(user.id, `${me.displayName} followed you`); }
+      save(); renderAll(); openProfileModal(user.id);
+    };
+  }
 }
 document.getElementById('closeProfileModal').onclick = ()=> document.getElementById('profileModal').classList.remove('show');
+document.getElementById('mobileProfileNav').onclick = ()=> {
+  if(state.currentUserId) {
+    openProfileModal(state.currentUserId);
+  } else {
+    document.getElementById('profileName').innerText = 'Account';
+    document.getElementById('profileUserMeta').innerText = 'Login or Quick Join to manage your profile and start roasting.';
+    document.getElementById('profilePosts').innerHTML = '';
+    
+    let followBtn = document.getElementById('profileFollowBtn');
+    if(followBtn) followBtn.style.display = 'none';
+    
+    document.getElementById('profileModal').classList.add('show');
+    renderUserArea(); // Render the login/register buttons in the modal
+  }
+};
+
 
 /* -------------------------
    Notifications
@@ -732,12 +904,19 @@ function addNotification(userId, text){
 }
 function renderNotifCount(){
   const c = state.notifications.filter(n=> n.userId===state.currentUserId && !n.read).length;
-  document.getElementById('notifCount').innerText = c ? `(${c})` : '';
+  // Desktop
+  const desktopCount = document.getElementById('notifCount');
+  if(desktopCount) desktopCount.innerText = c ? `(${c})` : '';
+  // Mobile
+  const mobileCount = document.getElementById('mobileNotifCount');
+  if(mobileCount) mobileCount.innerText = c ? ` (${c})` : '';
 }
 document.getElementById('openNotif').onclick = ()=> {
   document.getElementById('notifDrawer').classList.add('open');
   renderNotifDrawer();
 };
+document.getElementById('mobileOpenNotif').onclick = document.getElementById('openNotif').onclick;
+
 document.getElementById('closeNotifDrawer').onclick = ()=> document.getElementById('notifDrawer').classList.remove('open');
 function renderNotifDrawer(){
   const root = document.getElementById('notifHistory');
@@ -772,32 +951,65 @@ function renderLeaderboard(){
 /* Trending tags clickable wired in renderFeed */
 
 /* -------------------------
-   Explore grid
+   Explore grid & content (used by both desktop and mobile)
    ------------------------- */
-document.getElementById('openExplore').onclick = ()=> {
+function openExploreContent(){
   const modal = document.createElement('div');
   modal.className='modal-overlay show';
-  modal.innerHTML = `<div class="modal"><div class="modal-header"><strong>Explore</strong><button class="ghost" id="closeExplore">Close</button></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));grid-gap:8px">${state.posts.slice(0,40).map(p=>`<div class="explore-item" data-id="${p.id}">${sanitize(p.content.slice(0,60))}</div>`).join('')}</div></div>`;
+  modal.innerHTML = `
+    <div class="modal">
+      <div class="modal-header">
+        <strong>🔍 Explore & Discover</strong>
+        <button class="ghost" id="closeExplore">✖</button>
+      </div>
+
+      <h3 style="font-size:16px; margin-top:0">Trending Tags</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px; margin-bottom:15px" id="exploreTags">
+        <!-- Tags rendered dynamically or use static ones -->
+        <div class="tag" data-tag="Parents">#Parents</div>
+        <div class="tag" data-tag="SchoolLife">#SchoolLife</div>
+        <div class="tag" data-tag="KotaTruths">#KotaTruths</div>
+        <div class="tag" data-tag="Dating">#Dating</div>
+        <div class="tag" data-tag="Bollywood">#Bollywood</div>
+      </div>
+
+      <h3 style="font-size:16px;">Top Posts (Grid View)</h3>
+      <div style="font-size:12px; margin-bottom: 10px;" class="muted">Click to share / view full post</div>
+      <div id="exploreGridContent" class="explore-grid">
+        ${state.posts.slice(0,40).map(p=>`<div class="explore-item" data-id="${p.id}">${sanitize(p.content.slice(0,40))}...</div>`).join('')}
+      </div>
+      
+      <h3 style="font-size:16px; margin-top: 20px;">Top Users (Leaderboard)</h3>
+      <div id="exploreLeaderboard"></div>
+      
+    </div>
+  `;
   document.body.appendChild(modal);
+  
+  // Render a quick leaderboard inside the explore modal
+  const lbBox = modal.querySelector('#exploreLeaderboard');
+  const sorted = state.users.slice().sort((a,b)=> (b.xp||0)-(a.xp||0));
+  sorted.slice(0,8).forEach(u=>{
+    const row = document.createElement('div');
+    row.className = 'leaderboard-row';
+    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar">${sanitize(u.displayName[0]||u.username[0])}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
+    lbBox.appendChild(row);
+  });
+  
   modal.querySelector('#closeExplore').onclick = ()=> { document.body.removeChild(modal); };
   modal.querySelectorAll('.explore-item').forEach(it=> it.onclick = ()=> { const id = it.getAttribute('data-id'); sharePost(id); });
-};
+  modal.querySelectorAll('.tag').forEach(t=> t.onclick = ()=> { document.body.removeChild(modal); document.getElementById('topicSelect').value = t.getAttribute('data-tag'); renderFeed(); window.scrollTo({top:0,behavior:'smooth'}); });
+}
+
+document.getElementById('openExplore').onclick = openExploreContent;
+document.getElementById('mobileOpenExplore').onclick = openExploreContent;
+
 
 /* -------------------------
-   Bookmarks
+   Bookmarks (not rendered in main app, only in memory)
    ------------------------- */
 function renderBookmarks(){
-  const root = document.getElementById('bookmarkList');
-  root.innerHTML = '';
-  if(!state.bookmarks || state.bookmarks.length===0) root.innerHTML = '<div class="small muted">No bookmarks</div>';
-  (state.bookmarks||[]).forEach(pid=>{
-    const p = state.posts.find(x=>x.id===pid);
-    if(!p) return;
-    const el = document.createElement('div');
-    el.style.padding='8px'; el.style.borderBottom='1px dashed rgba(255,255,255,0.02)';
-    el.innerHTML = `<div style="font-weight:700">${sanitize(p.authorName)}</div><div class="small">${sanitize(p.content.slice(0,80))}</div>`;
-    root.appendChild(el);
-  });
+  // This function is still needed for state management but no longer renders a visible list
 }
 
 /* -------------------------
@@ -807,6 +1019,8 @@ document.getElementById('openDMs').onclick = ()=> {
   document.getElementById('dmModal').classList.add('show');
   renderDMList();
 };
+document.getElementById('mobileOpenDMs').onclick = document.getElementById('openDMs').onclick;
+
 document.getElementById('closeDMs').onclick = ()=> document.getElementById('dmModal').classList.remove('show');
 function renderDMList(){
   const list = document.getElementById('dmList');
@@ -819,12 +1033,44 @@ function renderDMList(){
     row.onclick = ()=> openThread(t.threadId);
     list.appendChild(row);
   });
+  
+  // Quick button to start a new DM for demo purposes
+  if(!document.getElementById('startDmBtn')) {
+    const startBtn = document.createElement('button');
+    startBtn.id = 'startDmBtn';
+    startBtn.className = 'ghost';
+    startBtn.innerText = '+ New Chat';
+    startBtn.onclick = ()=> {
+      if(!state.currentUserId) return notify('Login to start a DM', true);
+      const recipientName = prompt('Enter username to start a chat with:');
+      const recipient = state.users.find(u => u.username === recipientName);
+      if(!recipient) return notify('User not found.', true);
+      const existing = state.dms.find(d => d.participants.includes(state.currentUserId) && d.participants.includes(recipient.id));
+      if(existing) return openThread(existing.threadId);
+      
+      const newThread = { threadId: uid('t'), participants: [state.currentUserId, recipient.id], messages: [] };
+      state.dms.push(newThread);
+      save();
+      renderDMList();
+      openThread(newThread.threadId);
+    }
+    list.before(startBtn);
+  }
 }
 function openThread(threadId){
+  if(!state.currentUserId) return notify('Please login to view threads', true);
   const t = state.dms.find(x=>x.threadId===threadId);
   if(!t) return;
+  
+  // Set the DM modal to display the thread partner
+  const partnerId = t.participants.find(id => id !== state.currentUserId);
+  const partnerName = getUserDisplay(partnerId);
+  document.querySelector('#dmModal .modal-header strong').innerText = `DM with ${partnerName}`;
+  
   const root = document.getElementById('dmThread');
-  root.innerHTML = t.messages.map(m=>`<div style="padding:6px"><strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} <div class="u-xxs muted">${timeAgo(m.at)}</div></div>`).join('');
+  root.innerHTML = t.messages.map(m=>`<div style="padding:6px; background: ${m.from === state.currentUserId ? 'rgba(255,59,48,0.1)' : 'rgba(31,143,255,0.1)'}; border-radius: 8px; margin-bottom: 4px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;"><strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} <div class="u-xxs muted">${timeAgo(m.at)}</div></div>`).join('');
+  root.scrollTop = root.scrollHeight; // Scroll to bottom
+  
   document.getElementById('dmSend').onclick = ()=> {
     const txt = document.getElementById('dmInput').value.trim();
     if(!txt) return; t.messages.push({from: state.currentUserId, txt, at: nowISO()}); save(); renderDMList(); openThread(threadId); document.getElementById('dmInput').value=''; notify('Message sent');
@@ -850,49 +1096,38 @@ function generateAiRoast(){
 }
 
 /* -------------------------
-   Export / wipe
+   Export / wipe (now accessible via Mobile Profile Nav)
    ------------------------- */
 function exportData(){
   const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = 'bharatroast-data.json'; a.click();
   URL.revokeObjectURL(url);
+  notify('Data exported!');
 }
 function wipeAll(){
   if(!confirm('Wipe local data? This will remove all posts and users.')) return;
   localStorage.removeItem(DBKEY);
   location.reload();
 }
-document.getElementById('exportBtn').onclick = exportData;
-document.getElementById('wipeBtn').onclick = wipeAll;
-
-/* -------------------------
-   Demo filler
-   ------------------------- */
+// Desktop buttons for export/wipe are wired in renderUserArea now
 document.getElementById('demoFill').onclick = ()=> { loadDemo(); renderAll(); notify('Demo loaded'); };
-function loadDemo(){
-  // add a few more posts + users
-  for(let i=0;i<6;i++){
-    const u = {id:uid('u'), username:'demo'+i, displayName:'Demo'+i, score:0, bio:'', following:[], followers:[], badges:[], xp: Math.floor(Math.random()*80)};
-    state.users.push(u);
-    state.posts.unshift({id:uid('p'), authorId:u.id, authorName:u.displayName, content:`Demo roast post #${i} — this app is getting spicy`, media:[], anonymous:false, likes:[], comments:[], flags:0, createdAt: nowISO(), tone:'savage', tags:[]});
-  }
-  save();
-}
 
 /* -------------------------
-   Theme toggle (light mode)
+   Theme toggle (light mode) (now accessible via Mobile Profile Nav)
    ------------------------- */
 document.getElementById('toggleTheme').onclick = ()=> toggleTheme();
 function toggleTheme(){
-  const isLight = document.documentElement.style.getPropertyValue('--bg') !== '';
-  // simply toggle variable (fast)
-  if(document.body.classList.contains('light')){
+  const isLight = document.documentElement.style.getPropertyValue('--bg') === '#f7f7f8';
+  
+  if(isLight){
     document.body.classList.remove('light');
-    document.documentElement.style.removeProperty('--bg');
+    document.documentElement.style.setProperty('--bg','#0b0b0c');
+    document.documentElement.style.setProperty('--card','#121214');
   } else {
     document.body.classList.add('light');
     document.documentElement.style.setProperty('--bg','#f7f7f8');
+    document.documentElement.style.setProperty('--card','#ffffff');
   }
   notify('Theme toggled');
 }
@@ -901,11 +1136,14 @@ function toggleTheme(){
    Misc UI wiring
    ------------------------- */
 document.getElementById('floatingPost').onclick = ()=> { window.scrollTo({top:0,behavior:'smooth'}); document.getElementById('postContent').focus(); };
+// Desktop right column actions
 document.getElementById('clearBtn').onclick = ()=>{ document.getElementById('searchInput').value=''; document.getElementById('topicSelect').value=''; renderFeed(); };
 document.getElementById('searchInput').oninput = ()=> renderFeed();
 document.getElementById('sortSelect').onchange = ()=> renderFeed();
 document.getElementById('topicSelect').onchange = ()=> renderFeed();
-document.getElementById('openNotif').onclick = ()=> document.getElementById('notifDrawer').classList.toggle('open');
+// Desktop openNotif is now mapped to mobileOpenNotif
+document.getElementById('openDMs').onclick = document.getElementById('mobileOpenDMs').onclick;
+
 
 /* -------------------------
    Initial render

@@ -8,15 +8,17 @@
 <link rel="manifest" href="site.webmanifest">
 <style>
   /* ---------------------------
-     Base theme & utilities (Vibrant Dark Mode)
+     Base theme & utilities (Vibrant Dark Mode with Hot BG)
      --------------------------- */
   :root{
-    /* New Palette: Deep Charcoal, YELLOW/ORANGE Accent */
-    --bg:#08080A; --card:#141418; --muted:#A0A0A9; 
-    --accent:#FFA500; /* Orange/Yellow */
+    /* New Palette: Deep Charcoal (for text/cards), FIERY ORANGE/YELLOW Accent */
+    --bg-primary:#08080A; /* Used for base dark elements */
+    --card:#1A0F03; /* Very dark card, slightly brown/red tint for warmth */
+    --muted:#A0A0A9; 
+    --accent:#FF8C00; /* Dark Orange/Hot */
     --accent-2:#FFD700; /* Gold/Yellow */
     --glass: rgba(255,255,255,0.05);
-    --glass-fixed: rgba(14, 14, 16, 0.8); /* Used for fixed bars */
+    --glass-fixed: rgba(26, 15, 3, 0.85); /* Dark, slightly tinted glass for fixed bars */
     --success:#08a045;
     --danger:#FF4D4F;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -24,8 +26,11 @@
   }
   html,body{
     height:100%; margin:0;
-    background:linear-gradient(180deg,#070708 0%, #08080A 100%);
-    color:#e8eef6;
+    /* --- NEW FUN & HOT BACKGROUND (Keep) --- */
+    background:
+        /* 1. Base Fiery Gradient: Hot Orange to Red-Orange */
+        linear-gradient(180deg, #FF6600 0%, #E64A19 100%);
+    color:#e8eef6; /* Light text for contrast */
     overflow-x: hidden; /* CRITICAL: Prevent horizontal scroll */
   }
   *{
@@ -71,7 +76,7 @@
   .nav-btn:active{ transform: scale(0.95); }
   .nav-btn .icon { font-size: 26px; }
   .nav-btn .icon-small{ font-size: 22px; }
-  .nav-btn.active{ color: var(--accent); }
+  .nav-btn.active{ color: var(--accent-2); } /* Use gold for active accent */
 
   /* Media Query for mobile/tablet screens */
   @media(max-width:980px){
@@ -145,7 +150,8 @@
 
   /* Cards & layout */
   .card{
-    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    /* Use a dark, slightly tinted background for the cards to stand out on the hot background */
+    background:linear-gradient(180deg, #1C1204 0%, #1A0F03 100%);
     padding:16px;
     border-radius:var(--radius);
     margin-bottom:14px;
@@ -154,26 +160,31 @@
   }
   .small{font-size:12px;color:var(--muted)}
   .btn{
-    background:var(--accent);
+    background:var(--accent-2); /* Use bright gold/yellow for main button */
     border:none;
     padding:10px 14px;
     border-radius:10px;
-    color:#000; /* Text color changed to black for contrast on yellow/orange */
+    color:#000; 
     cursor:pointer;
     font-weight:700;
-    box-shadow:0 4px 10px rgba(255, 165, 0, 0.5); /* Updated shadow color */
+    box-shadow:0 4px 10px rgba(255, 215, 0, 0.5); /* Yellow shadow */
   }
   .btn:active{transform:scale(0.98)}
+  
+  /* --- GHOST BUTTON VISIBILITY FIX --- */
   .ghost{
     background:transparent;
-    border:1px solid rgba(255,255,255,0.1);
+    /* Use a solid white/accent border for high contrast */
+    border:1px solid rgba(255, 215, 0, 0.4); /* Accent-2 with 40% transparency */
     padding:10px 12px;
     border-radius:10px;
-    color:var(--muted);
+    color:#e8eef6; /* Use main text color (light) for visibility */
     cursor:pointer;
+    font-weight: 500;
   }
-  .ghost:hover{background:rgba(255,255,255,0.05);}
+  .ghost:hover{background:rgba(255, 215, 0, 0.1); color: #fff;} /* Light background tint on hover */
   .ghost:active{transform:scale(0.98)}
+  /* --- END GHOST BUTTON FIX --- */
 
   /* Composer */
   .composer{display:flex;gap:16px;align-items:flex-start}
@@ -182,7 +193,7 @@
     padding:12px;
     border-radius:12px;
     border:1px solid rgba(255,255,255,0.08);
-    background:rgba(0,0,0,0.3);
+    background:rgba(0,0,0,0.3); /* Darker input */
     color:inherit;
     resize:vertical;
     font-size:15px;
@@ -194,7 +205,7 @@
   .post{
     padding:16px;
     border-radius:var(--radius);
-    background:linear-gradient(180deg,#161618, #141416); /* Slightly deeper background for posts */
+    background:linear-gradient(180deg,#1F1406, #1A0F03); /* Slightly deeper background for posts */
     border:1px solid rgba(255,255,255,0.04);
   }
   .post:hover{
@@ -216,7 +227,7 @@
     font-weight:600;
   }
   .icon-btn:hover{background:rgba(255,255,255,0.08);}
-  .icon-btn.active{background:var(--accent);color:#000;box-shadow:0 2px 8px rgba(255, 165, 0, 0.5);} /* Text color set to black here too */
+  .icon-btn.active{background:var(--accent);color:#000;box-shadow:0 2px 8px rgba(255, 140, 0, 0.7);} /* Text color set to black here too */
   .badge{background:var(--accent-2);padding:4px 10px;border-radius:999px;font-size:12px;color:#000;font-weight:700}
   
   /* Right column specifics (still used on desktop) */
@@ -272,7 +283,7 @@
   /* tiny UX */
   .skeleton{background:linear-gradient(90deg,#121214,#0f0f10);height:16px;border-radius:8px;opacity:0.6}
   .muted{color:var(--muted)}
-  footer{opacity:0.6;text-align:center;margin-top:40px;padding-bottom: 20px; font-size:13px;color:var(--muted)}
+  footer{opacity:0.6;text-align:center;margin-top:40px;padding-bottom: 20px; font-size:13px;color:#fff; text-shadow: 0 1px 4px rgba(0,0,0,0.8);} /* Force footer text white/light for visibility */
   .u-xxs{font-size:11px;color:var(--muted)}
   .avatar{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;font-size:20px}
   input[type=file]{display:none}
@@ -631,9 +642,10 @@ function renderUserArea(){
 
     // Set mobile profile icon
     document.getElementById('mobileProfileIcon').innerText = sanitize(u.displayName[0]||'U');
-    document.getElementById('mobileProfileIcon').style.backgroundColor = 'var(--accent)';
+    document.getElementById('mobileProfileIcon').style.backgroundColor = 'var(--accent-2)';
     document.getElementById('mobileProfileIcon').style.color = '#000';
     document.getElementById('mobileProfileIcon').style.borderRadius = '50%';
+
   } else {
     // Desktop View
     const elDesk = document.createElement('div');
@@ -660,85 +672,112 @@ function renderUserArea(){
   }
 }
 
-/* -------------------------
-   Composer handlers
-   ------------------------- */
+/* ------------------------- Composer handlers ------------------------- */
 let stagedMedia = [];
 document.getElementById('mediaUpload').addEventListener('change', (e)=>{
   const files = Array.from(e.target.files || []);
-  if(stagedMedia.length + files.length > 4) { notify('Max 4 images allowed', true); return; }
+  if(stagedMedia.length + files.length > 4) {
+    notify('Max 4 images allowed', true);
+    return;
+  }
   files.forEach(f=>{
     const reader = new FileReader();
-    reader.onload = ()=> {
-      const id = uid('m');
-      stagedMedia.push({id, src: reader.result});
+    reader.onload = (e) => {
+      stagedMedia.push({id: uid('m'), src: e.target.result});
       renderMediaPreview();
     };
     reader.readAsDataURL(f);
   });
-  e.target.value = '';
 });
+
 function renderMediaPreview(){
   const root = document.getElementById('mediaPreview');
   root.innerHTML = '';
   stagedMedia.forEach(m=>{
-    const container = document.createElement('div');
-    container.style.position = 'relative';
-    container.style.display = 'inline-block';
-
-    const removeBtn = document.createElement('button');
-    removeBtn.innerText = '✖';
-    removeBtn.style.cssText = 'position:absolute;top:-5px;right:-5px;background:var(--danger);color:#fff;border:none;border-radius:50%;width:20px;height:20px;line-height:1;font-size:12px;cursor:pointer;';
-    removeBtn.onclick = (e)=> { e.stopPropagation(); stagedMedia = stagedMedia.filter(x=>x.id!==m.id); renderMediaPreview(); };
-
-    const img = document.createElement('img');
-    img.className = 'media-thumb';
-    img.src = m.src;
-    img.title = 'Click to remove';
-
-    container.appendChild(img);
-    container.appendChild(removeBtn);
-    root.appendChild(container);
+    const el = document.createElement('div');
+    el.style.position = 'relative';
+    el.innerHTML = `<img src="${m.src}" class="media-thumb" /><button style="position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.6);border:none;border-radius:50%;color:#fff;width:20px;height:20px;line-height:1;font-size:12px;cursor:pointer" data-id="${m.id}">✖</button>`;
+    root.appendChild(el);
+  });
+  root.querySelectorAll('button').forEach(b=>{
+    b.onclick = (e)=>{
+      const id = e.target.getAttribute('data-id');
+      stagedMedia = stagedMedia.filter(m=>m.id !== id);
+      renderMediaPreview();
+    }
   });
 }
-document.getElementById('clearComposer').onclick = ()=> { document.getElementById('postContent').value=''; stagedMedia=[]; renderMediaPreview(); notify('Composer cleared') };
-document.getElementById('aiRoastBtn').onclick = ()=> {
-  const r = generateAiRoast();
-  document.getElementById('postContent').value = r;
-  notify('AI Roast Generated');
-};
 
-/* quick register/login */
+document.getElementById('clearComposer').onclick = ()=>{
+  document.getElementById('postContent').value = '';
+  stagedMedia = [];
+  renderMediaPreview();
+  notify('Composer cleared');
+}
+
+/* AI Roast Feature (Demo Stub) */
+document.getElementById('aiRoastBtn').onclick = ()=>{
+  const content = document.getElementById('postContent').value.trim();
+  if(!content) return notify('Write something first to roast', true);
+  
+  // Simple demo AI logic
+  const roast = `*AI ROAST:* That's a decent thought, but the roast factor is only 3/10. Needs more spice. Try adding a dash of the 'savage' tone and mentioning 'chai' or 'Sharma ji ka beta'.`;
+  document.getElementById('postContent').value = content + '\n\n' + roast;
+  notify('AI Roast suggested!');
+}
+
+/* ------------------------- User authentication (Local only stub) ------------------------- */
 function quickRegister(){
-  const uname = 'user' + Math.floor(Math.random()*9000+1000);
-  const user = { id: uid('u'), username: uname, displayName: uname, score: 0, bio:`A new roaster from the RoastAbit community.`, following:[], followers:[], badges:['Newbie'], xp:0 };
+  const uname = 'guest_' + uid().slice(0,6);
+  if(state.users.find(u=>u.username === uname)) return quickRegister(); // Retry if somehow duplicates
+  const user = {id:uid('u'), username: uname, displayName: uname, score: 0, bio:`A new roaster from the RoastAbit community.`, following:[], followers:[], badges:['Newbie'], xp:0 };
   state.users.push(user);
   state.currentUserId = user.id;
-  save(); renderAll();
+  save();
+  renderAll();
   notify('Quick account created: @' + uname);
 }
+
 function showLoginPrompt(){
   const uname = prompt('Enter username (registered):');
   if(!uname) return;
   const user = state.users.find(u=>u.username === uname);
-  if(!user){ if(confirm('User not found. Create new user with this username?')) {
+  if(!user){
+    if(confirm('User not found. Create new user with this username?')) {
       const newu = {id:uid('u'), username: uname, displayName: uname, score: 0, bio:`A new roaster from the RoastAbit community.`, following:[], followers:[], badges:['Newbie'], xp:0};
-      state.users.push(newu); state.currentUserId = newu.id; save(); renderAll(); notify('Account created'); return;
-    } else { return; }
+      state.users.push(newu);
+      state.currentUserId = newu.id;
+      save();
+      renderAll();
+      notify('Account created');
+      return;
+    } else {
+      return;
+    }
   }
-  state.currentUserId = user.id; save(); renderAll(); notify('Logged in as @' + user.username);
+  state.currentUserId = user.id;
+  save();
+  renderAll();
+  notify('Logged in as @' + user.username);
 }
 
 /* Post creation */
 document.getElementById('postBtn').onclick = handlePost;
-document.getElementById('postContent').addEventListener('keydown', (e)=> { if(e.ctrlKey && e.key==='Enter') handlePost(); });
+document.getElementById('postContent').addEventListener('keydown', (e)=> {
+  if(e.ctrlKey && e.key==='Enter') handlePost();
+});
+
 function handlePost(){
   const content = document.getElementById('postContent').value.trim();
   if(!content && stagedMedia.length===0) return notify('Type something or add media', true);
+
   const anon = document.getElementById('postAnon').checked;
   const tone = document.getElementById('postTone').value;
+
   if(!state.currentUserId && !confirm('You are not logged in. Post will be anonymous. Continue?')) return;
+
   const author = state.users.find(u=>u.id===state.currentUserId);
+
   const post = {
     id: uid('p'),
     authorId: anon ? null : (author? author.id : null),
@@ -753,10 +792,16 @@ function handlePost(){
     tone,
     tags: extractTags(content)
   };
+
   state.posts.unshift(post);
-  stagedMedia = []; renderMediaPreview();
+  stagedMedia = [];
+  renderMediaPreview();
+
   // award xp
-  if(author){ author.xp = (author.xp||0) + 5; }
+  if(author){
+    author.xp = (author.xp||0) + 5;
+  }
+
   save();
   document.getElementById('postContent').value = '';
   notify('Posted successfully');
@@ -768,38 +813,64 @@ function extractTags(text){
   const tagset = [];
   const rx = /#([A-Za-z0-9_]+)/g;
   let m;
-  while((m = rx.exec(text)) !== null){ tagset.push(m[1]); }
+  while((m = rx.exec(text)) !== null){
+    tagset.push(m[1]);
+  }
   if(/parents/i.test(text) && !tagset.includes('Parents')) tagset.push('Parents');
   if(/dating/i.test(text) && !tagset.includes('Dating')) tagset.push('Dating');
   return tagset;
 }
 
-/* -------------------------
-   Rendering feed & actions
-   ------------------------- */
+/* ------------------------- Rendering feed & actions ------------------------- */
 function renderFeed(){
   const feed = document.getElementById('feed');
   feed.innerHTML = '';
+
   const q = (document.getElementById('searchInput').value || '').toLowerCase();
   const sort = document.getElementById('sortSelect').value;
   const topic = (document.getElementById('topicSelect').value || '').toLowerCase();
 
-  let posts = state.posts.slice();
+  const filteredPosts = state.posts.filter(p=>{
+    const matchesQuery = !q || p.content.toLowerCase().includes(q) || (p.tags||[]).some(t=> t.toLowerCase().includes(q)) || p.authorName.toLowerCase().includes(q);
+    const matchesTopic = !topic || (p.tags||[]).some(t=> t.toLowerCase() === topic);
+    return matchesQuery && matchesTopic;
+  });
 
-  if(q) posts = posts.filter(p => (p.content||'').toLowerCase().includes(q) || (p.authorName||'').toLowerCase().includes(q) || (p.tags||[]).join(' ').toLowerCase().includes(q));
-  if(topic) posts = posts.filter(p => (p.tags||[]).map(t=>t.toLowerCase()).includes(topic));
-  if(sort==='top') posts.sort((a,b)=> (b.likes||[]).length - (a.likes||[]).length || new Date(b.createdAt)-new Date(a.createdAt));
-  else posts.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
+  filteredPosts.sort((a,b)=>{
+    if(sort==='top') return (b.likes.length || 0) - (a.likes.length || 0);
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  
+  // Helper to resolve user name or use fallback
+  function getUserDisplay(userId){
+    const user = state.users.find(u=>u.id === userId);
+    return sanitize(user ? user.displayName : 'Unknown User');
+  }
 
-  posts.forEach(p=>{
+  // Helper to get avatar details
+  function getAvatarDetails(post){
+    if(post.anonymous || !post.authorId){
+      return { isAnon: true, avatarText: '?', authorDisplay: 'Anonymous Roaster' };
+    }
+    const user = state.users.find(u=>u.id === post.authorId);
+    return { 
+      isAnon: false, 
+      avatarText: sanitize(user? user.displayName[0] : 'U'), 
+      authorDisplay: sanitize(user? user.displayName : 'Deleted User')
+    };
+  }
+
+  filteredPosts.forEach(p=>{
     const el = document.createElement('div');
     el.className = 'post card';
-    const likeCount = (p.likes||[]).length;
-    const authorDisplay = p.authorName || 'Anonymous Roaster';
-    const tone = p.tone || 'witty';
-    const userAvatar = getUserDisplay(p.authorId, true);
-    // media section
-    const mediaHtml = p.media && p.media.length ? `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">${p.media.map(m=>`<img src="${m.src}" style="width:100%;max-height: 250px;object-fit:cover;border-radius:8px">`).join('')}</div>` : '';
+    const userAvatar = getAvatarDetails(p);
+    const authorDisplay = userAvatar.authorDisplay;
+    const likeCount = p.likes.length || 0;
+    const tone = p.tone.toUpperCase().substring(0,1) + p.tone.substring(1);
+    
+    const mediaHtml = (p.media && p.media.length > 0) 
+      ? `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">${p.media.map(m=>`<img src="${m.src}" style="width:100%;max-height: 250px;object-fit:cover;border-radius:8px">`).join('')}</div>` : '';
+
     el.innerHTML = `
       <div class="meta">
         <div style="display:flex;gap:12px;align-items:center">
@@ -832,60 +903,72 @@ function renderFeed(){
   feed.querySelectorAll('.share-btn').forEach(b=> b.onclick = ()=> sharePost(b.getAttribute('data-id')) );
   feed.querySelectorAll('.bookmark-btn').forEach(b=> b.onclick = ()=> toggleBookmark(b.getAttribute('data-id')) );
   feed.querySelectorAll('.report-btn').forEach(b=> b.onclick = ()=> openReport(b.getAttribute('data-id')) );
-  feed.querySelectorAll('[data-user]').forEach(el=> el.onclick = (e)=> {
-    const id = el.getAttribute('data-user');
-    if(!id) return notify('Anonymous profile');
-    openProfileModal(id);
+  feed.querySelectorAll('.avatar, .author').forEach(b=> {
+    if(b.getAttribute('data-user')) b.onclick = ()=> openProfileModal(b.getAttribute('data-user'));
   });
-  feed.querySelectorAll('.tag').forEach(t=> t.onclick = ()=> { document.getElementById('topicSelect').value = t.getAttribute('data-tag'); renderFeed(); });
+  feed.querySelectorAll('.tag').forEach(b=> b.onclick = ()=> {
+    document.getElementById('topicSelect').value = b.getAttribute('data-tag');
+    renderFeed();
+  });
 }
 
-/* Helpers */
-function getUserDisplay(id, full=false){
-  if(!id) return full ? { avatarText: 'A', isAnon: true } : 'Anonymous Roaster';
-  const u = state.users.find(x=>x.id===id);
-  if (full) return u ? { avatarText: u.displayName[0] || 'U', isAnon: false } : { avatarText: '?', isAnon: false };
-  return u ? u.displayName : 'User';
+function renderLeaderboard(){
+  const list = document.getElementById('leaderboardList');
+  list.innerHTML = '';
+  const sorted = state.users.slice().sort((a,b)=> (b.xp||0)-(a.xp||0)); // Sort by XP score
+  sorted.slice(0,5).forEach((u, i)=>{
+    const row = document.createElement('div');
+    row.className = 'leaderboard-row';
+    const rank = i+1;
+    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
+    list.appendChild(row);
+  });
 }
 
-/* Like toggling */
 function toggleLike(postId){
-  if(!state.currentUserId){ if(!confirm('Login to like? Quick register?')) return; quickRegister(); return; }
-  const post = state.posts.find(p=>p.id===postId);
-  if(!post) return;
-  const idx = (post.likes||[]).indexOf(state.currentUserId);
-  if(idx === -1){ post.likes.push(state.currentUserId);
-    if(post.authorId){
-      const a = state.users.find(u=>u.id===post.authorId); if(a) a.xp = (a.xp||0) + 3;
-    }
-    addNotification(post.authorId, `${getUserDisplay(state.currentUserId)} liked your post`);
-    notify('Liked');
-  } else { post.likes.splice(idx,1); notify('Unliked'); }
-  save(); renderAll();
+  if(!state.currentUserId) return notify('Please login to like posts', true);
+  const p = state.posts.find(x=>x.id===postId);
+  if(!p) return;
+
+  if(p.likes.includes(state.currentUserId)){
+    p.likes = p.likes.filter(id=> id !== state.currentUserId);
+    notify('Unliked');
+  } else {
+    p.likes.push(state.currentUserId);
+    notify('Liked!');
+    addNotification(p.authorId, `${state.users.find(u=>u.id===state.currentUserId).displayName} liked your post`);
+    // award xp
+    const author = state.users.find(u=>u.id===p.authorId);
+    if(author){ author.xp = (author.xp||0) + 1; }
+  }
+  save();
+  renderFeed();
+  renderLeaderboard();
 }
 
-/* Bookmark */
 function toggleBookmark(postId){
-  if(!state.currentUserId){ if(!confirm('Login to bookmark?')) return; quickRegister(); return; }
-  state.bookmarks = state.bookmarks || [];
+  if(!state.currentUserId) return notify('Please login to save posts', true);
   if(state.bookmarks.includes(postId)){
-    state.bookmarks = state.bookmarks.filter(x=>x!==postId);
+    state.bookmarks = state.bookmarks.filter(id=> id !== postId);
     notify('Removed bookmark');
   } else {
     state.bookmarks.push(postId);
-    notify('Bookmarked');
+    notify('Bookmarked!');
   }
-  save(); renderFeed(); // Re-render to update icon
+  save();
+  renderFeed();
+  if(document.getElementById('profileModal').classList.contains('show')) openProfileModal(state.currentUserId);
 }
 
-/* Comments */
 function openCommentPrompt(postId){
-  if(!state.currentUserId){ if(!confirm('Login to comment?')) return; quickRegister(); return; }
+  if(!state.currentUserId) return notify('Please login to comment', true);
   const txt = prompt('Write your comment:');
-  if(!txt) return;
-  const post = state.posts.find(p=>p.id===postId);
-  post.comments = post.comments || [];
+  if(!txt || txt.length < 2) return;
+
+  const post = state.posts.find(x=>x.id===postId);
+  if(!post) return;
   post.comments.push({id:uid('c'), from: state.currentUserId, txt, at: nowISO()});
+
   addNotification(post.authorId, `${getUserDisplay(state.currentUserId)} commented: "${txt.slice(0,30)}"`);
   save();
   notify('Comment added');
@@ -897,31 +980,37 @@ function sharePost(postId){
   const p = state.posts.find(x=>x.id===postId);
   if(!p) return;
   const txt = `${p.authorName}: ${p.content}\n— via RoastAbit`;
-  if(navigator.share){ navigator.share({text:txt}).catch(()=>{}); notify('Share dialog opened'); }
-  else {
+
+  if(navigator.share){
+    navigator.share({text:txt}).catch(()=>{});
+    notify('Share dialog opened');
+  } else {
     navigator.clipboard.writeText(txt).then(()=> notify('Copied to clipboard')).catch(() => {
-        // Fallback for security issues in iframe
-        const el = document.createElement('textarea');
-        el.value = txt;
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        try {
-            document.execCommand('copy');
-            notify('Copied to clipboard (fallback)');
-        } catch(e) {
-            notify('Failed to copy. Please copy manually.', true);
-        }
-        document.body.removeChild(el);
+      // Fallback for security issues in iframe
+      const el = document.createElement('textarea');
+      el.value = txt;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        notify('Copied to clipboard (fallback)');
+      } catch(e) {
+        notify('Failed to copy. Please copy manually.', true);
+      }
+      document.body.removeChild(el);
     });
   }
 }
 
 /* Report flow */
 let currentReportTarget = null;
-function openReport(postId){ currentReportTarget = postId; document.getElementById('reportModal').classList.add('show'); }
+function openReport(postId){
+  currentReportTarget = postId;
+  document.getElementById('reportModal').classList.add('show');
+}
 document.getElementById('closeReportModal').onclick = ()=> document.getElementById('reportModal').classList.remove('show');
 document.getElementById('submitReport').onclick = ()=> {
   const reason = document.getElementById('reportReason').value;
@@ -931,9 +1020,7 @@ document.getElementById('submitReport').onclick = ()=> {
   save();
 };
 
-/* -------------------------
-   Stories
-   ------------------------- */
+/* ------------------------- Stories ------------------------- */
 function renderStories(){
   const row = document.getElementById('storiesRow');
   row.innerHTML = '';
@@ -946,13 +1033,21 @@ function renderStories(){
     row.appendChild(el);
   });
 }
+
 document.getElementById('newStory').onclick = ()=> {
-  if(!state.currentUserId){ if(!confirm('Login to post stories?')) return; quickRegister(); return; }
+  if(!state.currentUserId){
+    if(!confirm('Login to post stories?')) return;
+    quickRegister();
+    return;
+  }
   const txt = prompt('Write a short story (max 140 chars):');
   if(!txt) return;
   state.stories.unshift({id:uid('s'), authorId: state.currentUserId, title: txt.slice(0,40), createdAt: nowISO(), content: txt});
-  save(); renderStories(); notify('Story posted');
+  save();
+  renderStories();
+  notify('Story posted');
 };
+
 function openStoryModal(s){
   document.getElementById('storyTitle').innerText = `${getUserDisplay(s.authorId)}'s Story`;
   document.getElementById('storyContent').innerText = s.content;
@@ -960,70 +1055,114 @@ function openStoryModal(s){
 }
 document.getElementById('closeStoryModal').onclick = ()=> document.getElementById('storyModal').classList.remove('show');
 
-/* -------------------------
-   Profiles (modal) & follow
-   ------------------------- */
+/* ------------------------- Profiles (modal) & follow ------------------------- */
 function openProfileModal(userId){
   const user = state.users.find(u=>u.id===userId);
   if(!user) return notify('User not found');
-  document.getElementById('profileName').innerText = user.displayName + (user.badges && user.badges.length ? ' • ' + user.badges.join(' ') : '');
-  document.getElementById('profileUserMeta').innerHTML = `<div style="margin-bottom: 8px;">@${user.username} · ${user.bio || 'No bio yet'}</div><div style="font-weight:700">Followers: ${user.followers?user.followers.length:0} · Following: ${user.following?user.following.length:0} · XP: ${user.xp||0}</div>`;
-  const postsHtml = state.posts.filter(p=>p.authorId===user.id).map(p=>`<div class="card" style="padding:10px;"><div class="small">${timeAgo(p.createdAt)}</div><div>${sanitize(p.content.slice(0,140))}...</div></div>`).join('');
-  document.getElementById('profilePosts').innerHTML = postsHtml || '<div class="small muted card">No posts yet</div>';
-  document.getElementById('profileModal').classList.add('show');
 
-  // Rerender user area controls for current user state
-  renderUserArea();
+  document.getElementById('profileName').innerText = sanitize(user.displayName);
 
-  // add follow button dynamically
-  let followBtn = document.getElementById('profileFollowBtn');
-  if(!followBtn){
-    followBtn = document.createElement('button');
-    followBtn.id = 'profileFollowBtn';
-    followBtn.className = 'btn';
-    document.querySelector('#profileModal .modal').insertBefore(followBtn, document.getElementById('profilePosts'));
+  const followers = user.followers ? user.followers.length : 0;
+  const following = user.following ? user.following.length : 0;
+  const userPosts = state.posts.filter(p=>p.authorId===user.id);
+  const badges = user.badges || [];
+  
+  document.getElementById('profileUserMeta').innerHTML = `
+    <div style="margin-bottom: 8px;">
+      <div class="avatar" style="width: 80px; height: 80px; font-size: 32px; margin: 0 auto 10px;">${sanitize(user.displayName[0]||'U')}</div>
+      <div style="font-size:14px; text-align:center;">
+        @${sanitize(user.username)} · XP: <span class="level">${user.xp||0}</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:20px;margin-bottom:12px;font-weight:700">
+      <div>${userPosts.length} Posts</div>
+      <div>${followers} Followers</div>
+      <div>${following} Following</div>
+    </div>
+    <div style="font-size:14px; text-align:center; color:#ddd; margin-bottom: 15px;">${sanitize(user.bio)}</div>
+    <div style="text-align:center; margin-bottom: 15px;">
+      ${badges.map(b=>`<span class="badge" style="margin-right:5px; background:var(--accent-2)">${b}</span>`).join('')}
+    </div>
+    <button class="btn" id="profileFollowBtn" style="width:100%; margin-top:10px"></button>
+  `;
+
+  // Render User Posts
+  const profilePostsRoot = document.getElementById('profilePosts');
+  profilePostsRoot.innerHTML = '';
+  if(userPosts.length === 0){
+    profilePostsRoot.innerHTML = `<div class="small muted">No posts yet.</div>`;
+  } else {
+    userPosts.slice(0,5).forEach(p=>{
+      const el = document.createElement('div');
+      el.className = 'post card'; // Use post card for styling consistency
+      el.style.padding = '12px';
+      el.style.marginBottom = '10px';
+      el.innerHTML = `<div class="small">${timeAgo(p.createdAt)} · ${p.likes.length} ❤️</div><div class="content">${sanitize(p.content.slice(0, 150))}${p.content.length > 150 ? '...' : ''}</div>`;
+      profilePostsRoot.appendChild(el);
+    });
+    if(userPosts.length > 5) profilePostsRoot.innerHTML += `<div class="small muted" style="text-align:center">+${userPosts.length-5} more posts</div>`;
   }
 
-  if(state.currentUserId === user.id) {
+  document.getElementById('profileModal').classList.add('show');
+  
+  // Handle Follow Button
+  let followBtn = document.getElementById('profileFollowBtn');
+  if(userId === state.currentUserId) {
     followBtn.style.display = 'none';
+    document.getElementById('mobile-user-area-controls').style.display = 'flex';
   } else {
+    document.getElementById('mobile-user-area-controls').style.display = 'none';
     followBtn.style.display = 'block';
     followBtn.innerText = (state.currentUserId && state.users.find(u=>u.id===state.currentUserId) && state.users.find(u=>u.id===state.currentUserId).following.includes(user.id)) ? 'Unfollow' : 'Follow';
     followBtn.onclick = ()=> {
-      if(!state.currentUserId){ if(!confirm('Login to follow?')) return; quickRegister(); return; }
+      if(!state.currentUserId){
+        if(!confirm('Login to follow?')) return;
+        quickRegister();
+        return;
+      }
       const me = state.users.find(u=>u.id===state.currentUserId);
-      if(me.following.includes(user.id)){ me.following = me.following.filter(x=>x!==user.id); user.followers = user.followers.filter(x=>x!==me.id); notify('Unfollowed'); }
-      else { me.following.push(user.id); user.followers = user.followers || []; user.followers.push(me.id); notify('Followed'); addNotification(user.id, `${me.displayName} followed you`); }
-      save(); renderAll(); openProfileModal(user.id);
+      if(me.following.includes(user.id)){
+        me.following = me.following.filter(x=>x!==user.id);
+        user.followers = user.followers.filter(x=>x!==me.id);
+        notify('Unfollowed');
+      } else {
+        me.following.push(user.id);
+        user.followers = user.followers || [];
+        user.followers.push(me.id);
+        notify('Followed');
+        addNotification(user.id, `${me.displayName} followed you`);
+      }
+      save();
+      renderAll();
+      openProfileModal(user.id);
     };
   }
 }
+
 document.getElementById('closeProfileModal').onclick = ()=> document.getElementById('profileModal').classList.remove('show');
 document.getElementById('mobileProfileNav').onclick = ()=> {
   if(state.currentUserId) {
     openProfileModal(state.currentUserId);
   } else {
     document.getElementById('profileName').innerText = 'Account';
-    document.getElementById('profileUserMeta').innerText = 'Login or Quick Join to manage your profile and start roasting.';
+    document.getElementById('profileUserMeta').innerHTML = '<div style="text-align:center">Login or Quick Join to manage your profile and start roasting.</div>';
     document.getElementById('profilePosts').innerHTML = '';
-
+    document.getElementById('mobile-user-area-controls').style.display = 'flex'; // Show login controls
     let followBtn = document.getElementById('profileFollowBtn');
     if(followBtn) followBtn.style.display = 'none';
-
     document.getElementById('profileModal').classList.add('show');
     renderUserArea();
   }
 };
 
-
-/* -------------------------
-   Notifications
-   ------------------------- */
+/* ------------------------- Notifications ------------------------- */
 function addNotification(userId, text){
   if(!userId || userId === state.currentUserId) return;
   state.notifications.unshift({id:uid('n'), userId, text, read:false, at: nowISO()});
-  save(); renderNotifCount();
+  save();
+  renderNotifCount();
 }
+
 function renderNotifCount(){
   const c = state.notifications.filter(n=> n.userId===state.currentUserId && !n.read).length;
   const desktopCount = document.getElementById('notifCount');
@@ -1031,13 +1170,17 @@ function renderNotifCount(){
   const mobileCount = document.getElementById('mobileNotifCount');
   if(mobileCount) mobileCount.innerText = c ? ` (${c})` : '';
 }
+
 document.getElementById('openNotif').onclick = ()=> {
   document.getElementById('notifDrawer').classList.add('open');
   renderNotifDrawer();
+  state.notifications.filter(n=> n.userId===state.currentUserId).forEach(n=> n.read = true);
+  save();
+  renderNotifCount();
 };
 document.getElementById('mobileOpenNotif').onclick = document.getElementById('openNotif').onclick;
-
 document.getElementById('closeNotifDrawer').onclick = ()=> document.getElementById('notifDrawer').classList.remove('open');
+
 function renderNotifDrawer(){
   const root = document.getElementById('notifHistory');
   root.innerHTML = '';
@@ -1045,49 +1188,125 @@ function renderNotifDrawer(){
   if(list.length===0) root.innerHTML = '<div class="small muted" style="padding: 10px;">No notifications</div>';
   list.forEach(n=>{
     const d = document.createElement('div');
-    d.style.padding='10px'; d.style.borderBottom='1px dashed rgba(255,255,255,0.05)';
+    d.style.padding='10px';
+    d.style.borderBottom='1px dashed rgba(255,255,255,0.05)';
     d.style.opacity = n.read ? 0.7 : 1;
     d.innerHTML = `<div style="font-weight:700">${sanitize(n.text)}</div><div class="small muted">${timeAgo(n.at)}</div>`;
     root.appendChild(d);
   });
-  state.notifications.forEach(x=> { if(x.userId===state.currentUserId) x.read = true; });
-  save(); renderNotifCount();
 }
 
-/* -------------------------
-   Leaderboard & tags
-   ------------------------- */
-function renderLeaderboard(){
-  const box = document.getElementById('leaderboardList');
-  box.innerHTML = '';
-  const sorted = state.users.slice().sort((a,b)=> (b.xp||0)-(a.xp||0));
-  sorted.slice(0,8).forEach((u, i)=>{
-    const row = document.createElement('div');
-    row.className = 'leaderboard-row';
-    const rank = i+1;
-    row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent);">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
-    box.appendChild(row);
+/* ------------------------- DMs (modal) ------------------------- */
+document.getElementById('openDMs').onclick = ()=> {
+  if(!state.currentUserId) return notify('Please login to view DMs', true);
+  renderDMList();
+  document.getElementById('dmModal').classList.add('show');
+};
+document.getElementById('mobileOpenDMs').onclick = document.getElementById('openDMs').onclick;
+document.getElementById('closeDMs').onclick = ()=> document.getElementById('dmModal').classList.remove('show');
+
+function renderDMList(){
+  const list = document.getElementById('dmList');
+  list.innerHTML = '';
+  const myThreads = state.dms.filter(t=> t.participants.includes(state.currentUserId)).sort((a,b)=> new Date(b.messages.slice(-1)[0].at) - new Date(a.messages.slice(-1)[0].at));
+
+  if(myThreads.length===0) list.innerHTML = `<div class="small muted" style="padding: 10px; text-align:center;">No chats yet.</div>`;
+
+  myThreads.forEach(t=>{
+    const partnerId = t.participants.find(id => id !== state.currentUserId);
+    const partnerName = getUserDisplay(partnerId);
+    const lastMsg = t.messages.slice(-1)[0];
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.style.padding = '10px';
+    el.style.cursor = 'pointer';
+    el.style.marginBottom = '6px';
+    el.onclick = ()=> openThread(t.threadId);
+    el.innerHTML = `
+      <div style="font-weight:700">${partnerName}</div>
+      <div class="small muted">${(lastMsg.from === state.currentUserId ? 'You: ' : '')}${sanitize(lastMsg.txt.slice(0,30))}...</div>
+    `;
+    list.appendChild(el);
   });
 }
 
-/* -------------------------
-   Explore grid & content
-   ------------------------- */
-function openExploreContent(){
-  const modal = document.createElement('div');
-  modal.className='modal-overlay show';
+function openThread(threadId){
+  if(!state.currentUserId) return notify('Please login to view threads', true);
+  const t = state.dms.find(x=>x.threadId===threadId);
+  if(!t) return;
+  const partnerId = t.participants.find(id => id !== state.currentUserId);
+  const partnerName = getUserDisplay(partnerId);
+  document.querySelector('#dmModal .modal-header strong').innerText = `Chat with ${partnerName}`;
 
-  // UPDATED: Renamed to Roast Duel Arena and updated options for mobile access
+  const root = document.getElementById('dmThread');
+  root.innerHTML = t.messages.map(m=>
+    `<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(255, 140, 0, 0.2)' : 'rgba(255, 215, 0, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;">
+      <strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} 
+      <div class="u-xxs muted" style="margin-top: 2px;">${timeAgo(m.at)}</div>
+    </div>`
+  ).join('');
+  root.scrollTop = root.scrollHeight;
+  
+  document.getElementById('dmSend').onclick = ()=> {
+    const txt = document.getElementById('dmInput').value.trim();
+    if(!txt) return;
+    t.messages.push({from: state.currentUserId, txt, at: nowISO()});
+    save();
+    renderDMList();
+    openThread(threadId);
+    document.getElementById('dmInput').value='';
+    notify('Message sent');
+  };
+}
+
+document.getElementById('startDmBtn').onclick = ()=> {
+  if(!state.currentUserId) return notify('Login to start a DM', true);
+  const recipientName = prompt('Enter username to start a chat with:');
+  const recipient = state.users.find(u => u.username === recipientName);
+  if(!recipient) return notify('User not found.', true);
+  if(recipient.id === state.currentUserId) return notify('Cannot chat with yourself.', true);
+
+  // Check if thread already exists
+  let thread = state.dms.find(t => 
+    t.participants.includes(state.currentUserId) && t.participants.includes(recipient.id)
+  );
+
+  if(!thread) {
+    // Create new thread
+    thread = {
+      threadId: uid('dm'),
+      participants: [state.currentUserId, recipient.id],
+      messages: [{from: state.currentUserId, txt: 'Hi, wanna roast something?', at: nowISO()}]
+    };
+    state.dms.push(thread);
+    save();
+  }
+  
+  renderDMList();
+  openThread(thread.threadId);
+  notify(`Started chat with ${recipient.displayName}`);
+};
+
+/* ------------------------- Explore Modal ------------------------- */
+document.getElementById('openExplore').onclick = openExploreModal;
+document.getElementById('mobileOpenExplore').onclick = openExploreModal;
+
+function openExploreModal(){
+  // Create and append modal content dynamically
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay show';
+  modal.id = 'exploreModal';
+  modal.setAttribute('role','dialog');
+
   const postTemplatesHtml = `
-    <h3 style="font-size:18px; margin-top: 25px; color: var(--accent);">Roast Duel Arena</h3>
-    <div style="font-size:12px; margin-bottom: 15px;" class="muted">Choose your format for the ultimate roast battle</div>
-    <div style="margin-top:12px;display:grid;grid-template-columns:1fr;gap:10px">
-      <div class="template" data-t="I'm about to drop a roast on {Topic} and need a partner. Who's in?">The Setup Roast (Partner Needed)</div>
-      <div class="template" data-t="Unpopular Roast: {Target} is secretly good at {Skill} but nobody noticed.">Hidden Talent Roast</div>
-      <div class="template" data-t="The truth is, {Person} is trying too hard to be {Adjective}.">Trying Too Hard Truth</div>
-      <div class="template" data-t="Challenge: Roast [A] using only compliments.">The Compliment Roast</div>
-      <div class="template" data-t="If my parents saw my bank balance they'd...">Money truth format</div>
-    </div>
+  <h3 style="font-size:18px; color: var(--accent); margin-top:20px;">Roast Templates</h3>
+  <div style="margin-top:12px;display:grid;grid-template-columns:1fr;gap:10px">
+    <div class="template" data-t="I'm about to drop a roast on {Topic} and need a partner. Who's in?">The Setup Roast (Partner Needed)</div>
+    <div class="template" data-t="Unpopular Roast: {Target} is secretly good at {Skill} but nobody noticed.">Hidden Talent Roast</div>
+    <div class="template" data-t="The truth is, {Person} is trying too hard to be {Adjective}.">Trying Too Hard Truth</div>
+    <div class="template" data-t="Challenge: Roast [A] using only compliments.">The Compliment Roast</div>
+    <div class="template" data-t="If my parents saw my bank balance they'd...">Money truth format</div>
+  </div>
   `;
 
   modal.innerHTML = `
@@ -1096,7 +1315,6 @@ function openExploreContent(){
         <strong>🔍 Explore & Discover</strong>
         <button class="ghost" id="closeExplore">✖</button>
       </div>
-
       <h3 style="font-size:18px; margin-top:0; color: var(--accent);">Trending Tags</h3>
       <div style="display:flex;flex-wrap:wrap;gap:10px; margin-bottom:20px" id="exploreTags">
         <div class="tag" data-tag="Parents">#Parents</div>
@@ -1105,18 +1323,17 @@ function openExploreContent(){
         <div class="tag" data-tag="Dating">#Dating</div>
         <div class="tag" data-tag="Bollywood">#Bollywood</div>
       </div>
-
-      ${postTemplatesHtml} <h3 style="font-size:18px; color: var(--accent);">Top Posts (Grid View)</h3>
+      ${postTemplatesHtml}
+      <h3 style="font-size:18px; color: var(--accent);">Top Posts (Grid View)</h3>
       <div style="font-size:12px; margin-bottom: 15px;" class="muted">Click to share / view full post</div>
       <div id="exploreGridContent" class="explore-grid">
         ${state.posts.slice(0,40).map(p=>`<div class="explore-item" data-id="${p.id}">${sanitize(p.content.slice(0,40))}...</div>`).join('')}
       </div>
-
       <h3 style="font-size:18px; margin-top: 25px; color: var(--accent);">Top Users (Leaderboard)</h3>
       <div id="exploreLeaderboard"></div>
-
     </div>
   `;
+
   document.body.appendChild(modal);
 
   const lbBox = modal.querySelector('#exploreLeaderboard');
@@ -1128,146 +1345,72 @@ function openExploreContent(){
     row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:30px;height:30px;font-size:14px; background: none; border-radius: 50%; border: 1px solid var(--accent);">${rank}</div><div>${sanitize(u.displayName)}</div></div><div class="small">XP: ${u.xp||0}</div>`;
     lbBox.appendChild(row);
   });
-
-  modal.querySelector('#closeExplore').onclick = ()=> { document.body.removeChild(modal); };
-  modal.querySelectorAll('.explore-item').forEach(it=> it.onclick = ()=> { const id = it.getAttribute('data-id'); sharePost(id); });
-  modal.querySelectorAll('.tag').forEach(t=> t.onclick = ()=> { document.body.removeChild(modal); document.getElementById('topicSelect').value = t.getAttribute('data-tag'); renderFeed(); window.scrollTo({top:0,behavior:'smooth'}); });
-
-  // Wire up Roast Duel Arena clicks in the modal
-  modal.querySelectorAll('.template').forEach(t=> {
-    t.onclick = ()=> {
-      document.body.removeChild(modal); // Close the modal
-      document.getElementById('postContent').value = t.getAttribute('data-t');
-      window.scrollTo({top:0,behavior:'smooth'});
-      document.getElementById('postContent').focus();
-      notify('Template loaded');
-    };
-  });
-}
-
-document.getElementById('openExplore').onclick = openExploreContent;
-document.getElementById('mobileOpenExplore').onclick = openExploreContent;
-
-
-/* -------------------------
-   DMs (very simple)
-   ------------------------- */
-document.getElementById('openDMs').onclick = ()=> {
-  if(!state.currentUserId) { notify('Please login to use DMs', true); return; }
-  document.getElementById('dmModal').classList.add('show');
-  renderDMList();
-};
-document.getElementById('mobileOpenDMs').onclick = document.getElementById('openDMs').onclick;
-
-document.getElementById('closeDMs').onclick = ()=> document.getElementById('dmModal').classList.remove('show');
-function renderDMList(){
-  const list = document.getElementById('dmList');
-  list.innerHTML = '';
-  document.querySelector('#dmModal .modal-header strong').innerText = `Direct Messages`;
   
-  const threadList = state.dms.filter(t => t.participants.includes(state.currentUserId));
-  if(threadList.length === 0) { list.innerHTML = '<div class="small muted" style="padding: 8px;">No active chats. Start one!</div>'; }
-  
-  threadList.forEach(t=>{
-    const partner = t.participants.find(x=>x!==state.currentUserId);
-    const row = document.createElement('div');
-    row.style.cssText = 'padding:10px; border-bottom:1px dashed rgba(255,255,255,0.05); cursor: pointer;';
-    const lastMsg = t.messages && t.messages.length ? t.messages[t.messages.length-1] : null;
-    row.innerHTML = `<div style="font-weight:700">${getUserDisplay(partner)}</div><div class="small">${lastMsg ? `${lastMsg.from === state.currentUserId ? 'You: ' : ''}${sanitize(lastMsg.txt).slice(0,40)}...` : 'Start the conversation'}</div>`;
-    row.onclick = ()=> openThread(t.threadId);
-    list.appendChild(row);
-  });
-}
-function openThread(threadId){
-  if(!state.currentUserId) return notify('Please login to view threads', true);
-  const t = state.dms.find(x=>x.threadId===threadId);
-  if(!t) return;
-
-  const partnerId = t.participants.find(id => id !== state.currentUserId);
-  const partnerName = getUserDisplay(partnerId);
-  document.querySelector('#dmModal .modal-header strong').innerText = `Chat with ${partnerName}`;
-
-  const root = document.getElementById('dmThread');
-  root.innerHTML = t.messages.map(m=>`<div style="padding:8px; background: ${m.from === state.currentUserId ? 'rgba(255, 165, 0, 0.2)' : 'rgba(255, 215, 0, 0.2)'}; border-radius: 10px; margin-bottom: 6px; margin-left: ${m.from === state.currentUserId ? 'auto' : '0'}; width: fit-content; max-width: 90%;"><strong>${getUserDisplay(m.from)}</strong>: ${sanitize(m.txt)} <div class="u-xxs muted" style="margin-top: 2px;">${timeAgo(m.at)}</div></div>`).join('');
-  root.scrollTop = root.scrollHeight;
-
-  document.getElementById('dmSend').onclick = ()=> {
-    const txt = document.getElementById('dmInput').value.trim();
-    if(!txt) return; t.messages.push({from: state.currentUserId, txt, at: nowISO()}); save(); renderDMList(); openThread(threadId); document.getElementById('dmInput').value=''; notify('Message sent');
+  modal.querySelector('#closeExplore').onclick = ()=> {
+    document.body.removeChild(modal);
   };
+
+  modal.querySelectorAll('.explore-item').forEach(it=> it.onclick = ()=> {
+    const id = it.getAttribute('data-id');
+    const p = state.posts.find(x=>x.id===id);
+    if(p){ sharePost(id); notify(`Post content: "${p.content}"`); }
+  });
+
+  modal.querySelectorAll('.template').forEach(t=> t.onclick = (e)=>{
+    const text = e.target.getAttribute('data-t');
+    document.getElementById('postContent').value = text;
+    document.body.removeChild(modal);
+    window.scrollTo({top:0,behavior:'smooth'});
+    document.getElementById('postContent').focus();
+    notify('Template loaded to composer');
+  });
+
+  modal.querySelectorAll('.tag').forEach(t=> t.onclick = (e)=>{
+    document.getElementById('topicSelect').value = e.target.getAttribute('data-tag');
+    document.body.removeChild(modal);
+    renderFeed();
+    notify(`Filtering by ${e.target.innerText}`);
+  });
 }
 
-document.getElementById('startDmBtn').onclick = ()=> {
-  if(!state.currentUserId) return notify('Login to start a DM', true);
-  const recipientName = prompt('Enter username to start a chat with:');
-  const recipient = state.users.find(u => u.username === recipientName);
-  if(!recipient) return notify('User not found.', true);
-  if(recipient.id === state.currentUserId) return notify('Cannot chat with yourself.', true);
-  const existing = state.dms.find(d => d.participants.includes(state.currentUserId) && d.participants.includes(recipient.id));
-  if(existing) return openThread(existing.threadId);
 
-  const newThread = { threadId: uid('t'), participants: [state.currentUserId, recipient.id], messages: [] };
-  state.dms.push(newThread);
-  save();
-  renderDMList();
-  openThread(newThread.threadId);
-}
-
-/* -------------------------
-   AI roast generator (local templated)
-   ------------------------- */
-function generateAiRoast(){
-  const templates = [
-    "Unpopular take: {X} is the real {Y}.",
-    "If {X} had a motto it'd be: '{Y}'.",
-    "POV: {X} thinks they're {Y}.",
-    "{X} be like '{Y}' and then we all clap.",
-    "My mom said {X}; I said 'that's not a feature, it's a personality.'"
-  ];
-  const picks = ["parents", "Kota coaching", "that WhatsApp group", "college apps", "the wifi", "my teacher", "Tinder dates", "that cousin"];
-  const adjectives = ["confused", "overhyped", "extra", "temporarily motivated", "lost in reels", "unnecessary", "broken promise"];
-  const t = templates[Math.floor(Math.random()*templates.length)];
-  const out = t.replace('{X}', picks[Math.floor(Math.random()*picks.length)]).replace('{Y}', adjectives[Math.floor(Math.random()*adjectives.length)]);
-  return out;
-}
-
-/* -------------------------
-   Export / wipe (now accessible via Mobile Profile Nav)
-   ------------------------- */
+/* ------------------------- Data Tools ------------------------- */
 function exportData(){
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type: 'application/json'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'roastabit-data.json'; a.click();
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `roastabit_data_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
   URL.revokeObjectURL(url);
   notify('Data exported!');
 }
+
 function wipeAll(){
-  if(!confirm('DANGER: Wipe ALL local data? This will remove all posts, users, and progress.')) return;
-  localStorage.removeItem(DBKEY);
-  location.reload();
+  if(confirm('DANGER: This will wipe ALL your local posts, users, DMs, and everything. Are you sure?')){
+    localStorage.removeItem(DBKEY);
+    state = { users: [], posts: [], stories: [], dms: [], notifications: [], currentUserId: null, bookmarks: [], reports: [] };
+    load(); // Reload initial empty state
+    seedIfEmpty(); // Re-seed initial demo data
+    renderAll();
+    notify('All local data wiped!', true);
+    document.getElementById('profileModal').classList.remove('show');
+  }
 }
-// Desktop buttons wired here
+
 document.getElementById('exportBtn').onclick = exportData;
 document.getElementById('wipeBtn').onclick = wipeAll;
-document.getElementById('demoFill').onclick = ()=> {
-    // Simple load demo function: clear all posts and refill with seed data posts only.
-    load();
-    state.posts = [];
-    seedIfEmpty(); // This will re-seed everything but we only care about posts
-    state.posts = state.posts.slice(0, 3); // Keep only the initial 3 posts
-    save();
-    renderAll();
-    notify('Demo loaded');
+document.getElementById('demoFill').onclick = ()=>{
+  // simple demo function: clear all posts and refill with seed data posts only.
+  load(); 
+  state.posts = []; 
+  seedIfEmpty(); // This will re-seed everything but we only care about posts
+  state.posts = state.posts.slice(0, 3); // Keep only the initial 3 posts
+  save(); 
+  renderAll(); 
+  notify('Demo loaded');
 };
-
-/* -------------------------
-   Theme toggle (REMOVED LOGIC - THEME IS NOW FIXED)
-   ------------------------- */
-// document.getElementById('toggleTheme').onclick = ()=> toggleTheme();
-// function toggleTheme(){
-//   // Logic removed to ensure theme is locked to yellowish dark mode
-//   notify('Theme is now locked to the requested style.');
-// }
 
 
 /* -------------------------
